@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Missing Nodes — Taxonomy Gap Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f5f1;
+    --surface: #ffffff;
+    --surface2: #f0ece5;
+    --border: #e0d9d0;
+    --ink: #1c1a17;
+    --muted: #7a7165;
+
+    --c-clinical: #1a5276;
+    --c-pharmacy: #1e6b47;
+    --c-technology: #5b2c8a;
+    --c-people: #8a4c1a;
+    --c-facilities: #2e6b5c;
+    --c-finance: #6b2e5c;
+    --c-nonadd: #5c5040;
+
+    --priority-critical: #c0392b;
+    --priority-high: #d4680a;
+    --priority-medium: #1a5276;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Source Sans 3', Helvetica, sans-serif; font-size: 13.5px; line-height: 1.6; }
+
+  header { background: var(--ink); color: #f7f5f1; padding: 48px 60px 40px; }
+  .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #9a9080; margin-bottom: 12px; }
+  header h1 { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 400; line-height: 1.1; margin-bottom: 10px; }
+  header p { color: #9a9080; font-size: 14px; max-width: 640px; line-height: 1.7; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(5, 1fr); background: var(--surface); border-bottom: 1px solid var(--border); }
+  .stat { padding: 18px 24px; border-right: 1px solid var(--border); }
+  .stat:last-child { border-right: none; }
+  .stat-n { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 400; line-height: 1; margin-bottom: 3px; }
+  .stat-l { font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 44px 40px 80px; }
+
+  /* DOMAIN SECTION */
+  .domain-section { margin-bottom: 48px; }
+  .domain-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 20px; border-radius: 5px 5px 0 0;
+    color: white; margin-bottom: 0;
+  }
+  .domain-header h2 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; }
+  .domain-count { font-family: 'IBM Plex Mono', monospace; font-size: 10px; opacity: 0.7; margin-left: auto; }
+
+  /* GAP TABLE */
+  .gap-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-top: none; border-radius: 0 0 5px 5px; overflow: hidden; margin-bottom: 0; }
+  .gap-table thead { background: var(--surface2); border-bottom: 1px solid var(--border); }
+  .gap-table th { text-align: left; padding: 9px 16px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 700; }
+  .gap-table td { padding: 10px 16px; border-bottom: 1px solid #f0ece5; vertical-align: top; font-size: 13px; }
+  .gap-table tr:last-child td { border-bottom: none; }
+  .gap-table tr:hover td { background: #faf8f5; }
+
+  .priority-badge {
+    font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase;
+    letter-spacing: 0.1em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; font-weight: 500;
+  }
+  .p-critical { background: var(--priority-critical); color: white; }
+  .p-high { background: var(--priority-high); color: white; }
+  .p-medium { background: var(--priority-medium); color: white; }
+
+  .path-tag {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 3px; padding: 2px 7px; display: inline-block;
+    color: #4a4540; margin: 2px 0;
+  }
+  .path-tag.new { background: #eef6f1; border-color: #a8d4bc; color: #1e6b47; }
+
+  .why-cell { font-size: 12px; color: var(--muted); line-height: 1.55; }
+  .why-cell strong { color: var(--ink); }
+
+  .vendor-pill {
+    display: inline-block; font-size: 10.5px; background: #f0ece5;
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 1px 8px; margin: 1px 2px; color: var(--muted);
+  }
+
+  /* COLOR CLASSES */
+  .bg-clinical { background: var(--c-clinical); }
+  .bg-pharmacy { background: var(--c-pharmacy); }
+  .bg-technology { background: var(--c-technology); }
+  .bg-people { background: var(--c-people); }
+  .bg-facilities { background: var(--c-facilities); }
+  .bg-finance { background: var(--c-finance); }
+  .bg-nonadd { background: var(--c-nonadd); }
+
+  footer { background: var(--ink); color: #7a7165; text-align: center; padding: 22px; font-size: 11px; font-family: 'IBM Plex Mono', monospace; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">SpendAI · Wellstar Health System · Taxonomy Gap Analysis</div>
+  <h1>Missing Nodes</h1>
+  <p>Systematic review of the current taxonomy against expected healthcare spend categories. Gaps identified by domain, with priority rating and recommended placement for each missing node.</p>
+</header>
+
+<div class="stats-row">
+  <div class="stat"><div class="stat-n" style="color:var(--priority-critical)">8</div><div class="stat-l">Critical Gaps</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--priority-high)">14</div><div class="stat-l">High Priority</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--priority-medium)">11</div><div class="stat-l">Medium Priority</div></div>
+  <div class="stat"><div class="stat-n">33</div><div class="stat-l">Total Missing Nodes</div></div>
+  <div class="stat"><div class="stat-n">6</div><div class="stat-l">Domains Affected</div></div>
+</div>
+
+<div class="container">
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- CLINICAL & MEDICAL -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="domain-section">
+  <div class="domain-header bg-clinical">
+    <h2>Clinical & Medical</h2>
+    <div class="domain-count">11 missing nodes across 5 gaps</div>
+  </div>
+  <table class="gap-table">
+    <thead><tr><th style="width:10%">Priority</th><th style="width:22%">Missing Node</th><th style="width:20%">Where It Goes</th><th style="width:24%">Why It's Needed</th><th>Typical Vendors</th></tr></thead>
+    <tbody>
+
+      <tr>
+        <td><span class="priority-badge p-critical">Critical</span></td>
+        <td><strong>Laboratory — entire L2 missing</strong><br><br>
+          <span class="path-tag new">Lab Supplies & Reagents</span><br>
+          <span class="path-tag new">Lab Analyzers & Equipment</span><br>
+          <span class="path-tag new">Reference & Outsourced Lab Services</span>
+        </td>
+        <td>
+          New L2 under Clinical & Medical<br><br>
+          <span class="path-tag">Clinical & Medical → Laboratory</span>
+        </td>
+        <td class="why-cell">As the Abbott reagent exercise showed, there is no home for any lab reagent, analyzer, or outsourced lab service in the current taxonomy. This affects <strong>every lab vendor</strong> — Abbott, Roche, BD, Beckman Coulter, Quest, LabCorp. All of their spend is currently unclassifiable or misrouted. Lab is typically 8–12% of total clinical spend at a health system.</td>
+        <td><span class="vendor-pill">Abbott</span><span class="vendor-pill">Roche</span><span class="vendor-pill">BD</span><span class="vendor-pill">Beckman Coulter</span><span class="vendor-pill">Quest</span><span class="vendor-pill">LabCorp</span><span class="vendor-pill">Siemens Healthineers</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-critical">Critical</span></td>
+        <td><strong>Cardiovascular Diagnostics & Reagents</strong><br><br>
+          <span class="path-tag new">Cardiovascular Diagnostics & Reagents</span>
+        </td>
+        <td>
+          New L3 under Cardiovascular Supplies<br><br>
+          <span class="path-tag">Clinical & Medical → Cardiovascular Supplies → Cardiovascular Diagnostics & Reagents</span>
+        </td>
+        <td class="why-cell">BNP, Troponin, CK-MB, and other cardiac biomarker reagents have no home. As discussed, these belong under Cardiovascular for department visibility. Without this node, cardiac diagnostic spend is invisible or scattered. Particularly relevant for Wellstar's cath lab and ED programs.</td>
+        <td><span class="vendor-pill">Abbott (i-STAT)</span><span class="vendor-pill">Roche</span><span class="vendor-pill">Siemens</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-high">High</span></td>
+        <td><strong>Imaging & Radiology Supplies (Contrast Media)</strong><br><br>
+          <span class="path-tag new">Contrast Media (MRI / CT / X-Ray)</span><br>
+          <span class="path-tag new">Nuclear Medicine Radiopharmaceuticals</span>
+        </td>
+        <td>
+          New L2 or L3 under Clinical & Medical<br><br>
+          <span class="path-tag">Clinical & Medical → Imaging & Radiology Supplies</span>
+        </td>
+        <td class="why-cell">Contrast media are consumables used alongside imaging equipment — but currently only the <em>equipment</em> (MRI, CT) has a node. Contrast agents are ordered in high volume, have their own GPO contracts, and currently have no home. They would incorrectly route to Imaging & Diagnostic Equipment, which is for capital systems not consumable agents.</td>
+        <td><span class="vendor-pill">GE Healthcare</span><span class="vendor-pill">Bayer</span><span class="vendor-pill">Bracco</span><span class="vendor-pill">Guerbet</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-high">High</span></td>
+        <td><strong>Orthopedic Power Tools & Accessories</strong> missing from Orthopedic Supplies<br><br>
+          <span class="path-tag new">Orthopedic Power Tools & Accessories</span>
+        </td>
+        <td>
+          New L3 under Orthopedic Supplies<br><br>
+          <span class="path-tag">Clinical & Medical → Orthopedic Supplies → Orthopedic Power Tools & Accessories</span>
+        </td>
+        <td class="why-cell">Orthopedic power tools (drills, saws, reamers) currently sit in Surgical & Procedural Equipment — separated from the rest of orthopedic spend. For a system with high joint replacement volume, having power tools split from implants makes orthopedic spend analysis incomplete. Stryker sells both on the same contract.</td>
+        <td><span class="vendor-pill">Stryker</span><span class="vendor-pill">Zimmer Biomet</span><span class="vendor-pill">DePuy Synthes</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-medium">Medium</span></td>
+        <td><strong>Dental Supplies & Equipment</strong><br><br>
+          <span class="path-tag new">Dental Supplies & Equipment</span>
+        </td>
+        <td>
+          New L3 under Specialty Implant Supplies or new L2<br><br>
+          <span class="path-tag">Clinical & Medical → Specialty Implant Supplies → Dental Supplies & Equipment</span>
+        </td>
+        <td class="why-cell">If Wellstar operates dental clinics or oral surgery programs, dental spend has no node and will fall into "Other." Dental implants, instruments, and supplies are a distinct category with their own vendor market.</td>
+        <td><span class="vendor-pill">Patterson Dental</span><span class="vendor-pill">Henry Schein</span><span class="vendor-pill">Dentsply Sirona</span></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PHARMACY -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="domain-section">
+  <div class="domain-header bg-pharmacy">
+    <h2>Pharmacy</h2>
+    <div class="domain-count">4 missing nodes</div>
+  </div>
+  <table class="gap-table">
+    <thead><tr><th style="width:10%">Priority</th><th style="width:22%">Missing Node</th><th style="width:20%">Where It Goes</th><th style="width:24%">Why It's Needed</th><th>Typical Vendors</th></tr></thead>
+    <tbody>
+
+      <tr>
+        <td><span class="priority-badge p-critical">Critical</span></td>
+        <td><strong>Drug Distribution & Wholesale</strong><br><br>
+          <span class="path-tag new">Wholesale Drug Distribution</span><br>
+          <span class="path-tag new">Specialty Drug Distribution</span><br>
+          <span class="path-tag new">340B Program Management</span>
+        </td>
+        <td>
+          New L2 under Pharmacy<br><br>
+          <span class="path-tag">Pharmacy → Drug Distribution & Supply Chain</span>
+        </td>
+        <td class="why-cell">McKesson, Cardinal Health, and AmerisourceBergen are typically among the top 5 vendors by spend at any health system. There is currently no node for wholesale drug distribution — these invoices will either route to Pharmaceutical Products (wrong — distribution is a service) or go unclassified. 340B is a major savings program that deserves its own visibility node.</td>
+        <td><span class="vendor-pill">McKesson</span><span class="vendor-pill">Cardinal Health</span><span class="vendor-pill">AmerisourceBergen</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-high">High</span></td>
+        <td><strong>Cold Chain & Temperature-Controlled Distribution</strong><br><br>
+          <span class="path-tag new">Cold Chain Distribution</span>
+        </td>
+        <td>
+          New L3 under Pharmaceutical Services<br><br>
+          <span class="path-tag">Pharmacy → Pharmaceutical Services → Cold Chain Distribution</span>
+        </td>
+        <td class="why-cell">Biologics, vaccines, and specialty drugs require cold chain logistics. This is a distinct cost category with its own vendors and compliance requirements (USP 797/800). Currently has no home separate from general drug distribution.</td>
+        <td><span class="vendor-pill">Cryoport</span><span class="vendor-pill">World Courier</span><span class="vendor-pill">Marken</span></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TECHNOLOGY -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="domain-section">
+  <div class="domain-header bg-technology">
+    <h2>Technology</h2>
+    <div class="domain-count">8 missing nodes — most underdeveloped domain</div>
+  </div>
+  <table class="gap-table">
+    <thead><tr><th style="width:10%">Priority</th><th style="width:22%">Missing Node</th><th style="width:20%">Where It Goes</th><th style="width:24%">Why It's Needed</th><th>Typical Vendors</th></tr></thead>
+    <tbody>
+
+      <tr>
+        <td><span class="priority-badge p-critical">Critical</span></td>
+        <td><strong>IT Services — entire category missing</strong><br><br>
+          <span class="path-tag new">Managed IT Services (MSP)</span><br>
+          <span class="path-tag new">Help Desk & End-User Support</span><br>
+          <span class="path-tag new">System Integration Services</span><br>
+          <span class="path-tag new">IT Project Management</span>
+        </td>
+        <td>
+          New L2 under Technology<br><br>
+          <span class="path-tag">Technology → IT Services</span>
+        </td>
+        <td class="why-cell">The Technology domain only has hardware and software nodes — there is no home for IT service engagements. Managed services, implementation projects, help desk contracts, and IT consulting are significant spend and currently route to Finance → Consulting Services, which is incorrect. Epic implementation services alone can be tens of millions of dollars.</td>
+        <td><span class="vendor-pill">Epic (implementation)</span><span class="vendor-pill">Leidos</span><span class="vendor-pill">Cognizant</span><span class="vendor-pill">Accenture</span><span class="vendor-pill">HCL</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-critical">Critical</span></td>
+        <td><strong>Cybersecurity Services</strong><br><br>
+          <span class="path-tag new">HIPAA Compliance & Risk Assessment</span><br>
+          <span class="path-tag new">Penetration Testing</span><br>
+          <span class="path-tag new">Security Operations Center (SOC)</span><br>
+          <span class="path-tag new">Identity & Access Management</span>
+        </td>
+        <td>
+          New L3 under IT Services (or standalone L2)<br><br>
+          <span class="path-tag">Technology → IT Services → Cybersecurity</span>
+        </td>
+        <td class="why-cell">No cybersecurity node exists anywhere in the taxonomy. Healthcare is the #1 ransomware target — Wellstar's cybersecurity spend is significant and growing. Currently routes to Finance → Compliance Services or Finance → Consulting, both incorrect. HIPAA audit and security are distinct from general compliance.</td>
+        <td><span class="vendor-pill">CrowdStrike</span><span class="vendor-pill">Palo Alto</span><span class="vendor-pill">Optiv</span><span class="vendor-pill">Herjavec Group</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-high">High</span></td>
+        <td><strong>Clinical Decision Support & Analytics</strong><br><br>
+          <span class="path-tag new">Clinical Analytics & Reporting</span><br>
+          <span class="path-tag new">AI Diagnostics & Imaging AI</span><br>
+          <span class="path-tag new">Clinical Decision Support Tools</span>
+        </td>
+        <td>
+          New L3 under IT-Software<br><br>
+          <span class="path-tag">Technology → IT-Software → Clinical Decision Support & Analytics</span>
+        </td>
+        <td class="why-cell">AI diagnostics, clinical analytics platforms, and CDSS tools are a fast-growing spend category. Currently no node — they would misroute to EHR or get lost in Consulting. Distinct from EHR (which is Epic/Cerner) and from general enterprise software.</td>
+        <td><span class="vendor-pill">Wolters Kluwer</span><span class="vendor-pill">Nuance</span><span class="vendor-pill">Aidoc</span><span class="vendor-pill">Viz.ai</span><span class="vendor-pill">Health Catalyst</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-high">High</span></td>
+        <td><strong>Telecom & Mobile Services</strong><br><br>
+          <span class="path-tag new">Mobile & Cellular Services</span><br>
+          <span class="path-tag new">Telecom Carrier Services</span>
+        </td>
+        <td>
+          New L3 under IT-Hardware<br><br>
+          <span class="path-tag">Technology → IT-Hardware → Telecom & Mobile Services</span>
+        </td>
+        <td class="why-cell">Recurring telecom carrier bills (AT&T, Verizon) and mobile device service plans are distinct from telecom infrastructure hardware. Currently no node — routes ambiguously to Data and Telecom Infrastructure.</td>
+        <td><span class="vendor-pill">AT&T</span><span class="vendor-pill">Verizon</span><span class="vendor-pill">T-Mobile</span><span class="vendor-pill">Windstream</span></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PEOPLE & WORKFORCE -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="domain-section">
+  <div class="domain-header bg-people">
+    <h2>People & Workforce</h2>
+    <div class="domain-count">6 missing nodes — domain is essentially a stub</div>
+  </div>
+  <table class="gap-table">
+    <thead><tr><th style="width:10%">Priority</th><th style="width:22%">Missing Node</th><th style="width:20%">Where It Goes</th><th style="width:24%">Why It's Needed</th><th>Typical Vendors</th></tr></thead>
+    <tbody>
+
+      <tr>
+        <td><span class="priority-badge p-critical">Critical</span></td>
+        <td><strong>Clinical Staffing breakdown</strong><br><br>
+          <span class="path-tag new">Travel & Contract Nursing</span><br>
+          <span class="path-tag new">Allied Health Staffing</span><br>
+          <span class="path-tag new">Physician & Advanced Practice Staffing</span><br>
+          <span class="path-tag new">Clinical Support Staffing</span>
+        </td>
+        <td>
+          New L2 + L3s under People & Workforce<br><br>
+          <span class="path-tag">People & Workforce → Clinical Staffing</span>
+        </td>
+        <td class="why-cell">The current "Staffing Services" node is a single undifferentiated bucket. Travel nursing alone is typically $30–80M+ annually at a system like Wellstar. Without clinical staffing broken out, the client cannot see their largest labor cost driver. AMN, Aya, and Cross Country invoice identically — only the L3 sub-type tells you what kind of staff was placed.</td>
+        <td><span class="vendor-pill">AMN Healthcare</span><span class="vendor-pill">Aya Healthcare</span><span class="vendor-pill">Cross Country</span><span class="vendor-pill">Envision</span><span class="vendor-pill">TeamHealth</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-high">High</span></td>
+        <td><strong>Non-Clinical Staffing</strong><br><br>
+          <span class="path-tag new">IT & Technology Staffing</span><br>
+          <span class="path-tag new">Administrative & Finance Staffing</span><br>
+          <span class="path-tag new">Facilities & Operations Staffing</span>
+        </td>
+        <td>
+          New L2 + L3s under People & Workforce<br><br>
+          <span class="path-tag">People & Workforce → Non-Clinical Staffing</span>
+        </td>
+        <td class="why-cell">Non-clinical contractors and temps currently have no home separate from clinical staff. IT contractors in particular are significant spend and should not sit alongside travel nurses.</td>
+        <td><span class="vendor-pill">Robert Half</span><span class="vendor-pill">Randstad</span><span class="vendor-pill">Insight Global</span><span class="vendor-pill">TEKsystems</span></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- FACILITIES & OPERATIONS -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="domain-section">
+  <div class="domain-header bg-facilities">
+    <h2>Facilities & Operations</h2>
+    <div class="domain-count">5 missing nodes</div>
+  </div>
+  <table class="gap-table">
+    <thead><tr><th style="width:10%">Priority</th><th style="width:22%">Missing Node</th><th style="width:20%">Where It Goes</th><th style="width:24%">Why It's Needed</th><th>Typical Vendors</th></tr></thead>
+    <tbody>
+
+      <tr>
+        <td><span class="priority-badge p-critical">Critical</span></td>
+        <td><strong>Waste Management</strong><br><br>
+          <span class="path-tag new">Regulated Medical Waste</span><br>
+          <span class="path-tag new">Sharps Disposal</span><br>
+          <span class="path-tag new">Hazardous Waste Disposal</span><br>
+          <span class="path-tag new">Solid Waste & Recycling</span>
+        </td>
+        <td>
+          New L3s under Facilities Services<br><br>
+          <span class="path-tag">Facilities & Operations → Facilities Services → Waste Management</span>
+        </td>
+        <td class="why-cell">Regulated medical waste and sharps disposal are legally mandated, heavily regulated spend with dedicated vendors. Stericycle is typically a top-20 vendor by invoice volume at health systems. Currently no node — routes to "Cleaning Services" or "Other Non-Medical Supplies," both wrong.</td>
+        <td><span class="vendor-pill">Stericycle</span><span class="vendor-pill">Clean Harbors</span><span class="vendor-pill">Veolia</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-high">High</span></td>
+        <td><strong>Linen & Textile Services</strong><br><br>
+          <span class="path-tag new">Patient Linen Rental & Laundry</span><br>
+          <span class="path-tag new">Clinical Uniforms & Scrubs</span>
+        </td>
+        <td>
+          New L3s under Facilities Services<br><br>
+          <span class="path-tag">Facilities & Operations → Facilities Services → Linen & Textile Services</span>
+        </td>
+        <td class="why-cell">Linen rental and laundry are major recurring contracts at hospital networks. Cintas and Aramark Healthcare are top vendors. Currently no node — routes to "Cleaning Services" (wrong) or "Non-Medical Supplies" (also wrong — linen rental is a service).</td>
+        <td><span class="vendor-pill">Cintas</span><span class="vendor-pill">Aramark</span><span class="vendor-pill">Alsco</span><span class="vendor-pill">ImageFIRST</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-high">High</span></td>
+        <td><strong>Utilities</strong><br><br>
+          <span class="path-tag new">Electricity</span><br>
+          <span class="path-tag new">Natural Gas</span><br>
+          <span class="path-tag new">Water & Sewer</span>
+        </td>
+        <td>
+          New L2 under Facilities & Operations<br><br>
+          <span class="path-tag">Facilities & Operations → Utilities</span>
+        </td>
+        <td class="why-cell">Utilities are a major fixed cost across 11 campuses — typically $15–30M+ annually for a system this size. No node exists. Currently unclassifiable or routes to "Building Services" or "ESG Services," neither of which is correct. Essential for ESG reporting and energy cost analysis.</td>
+        <td><span class="vendor-pill">Georgia Power</span><span class="vendor-pill">Atlanta Gas Light</span><span class="vendor-pill">Local utilities</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-medium">Medium</span></td>
+        <td><strong>Pest Control</strong><br><br>
+          <span class="path-tag new">Pest Control Services</span>
+        </td>
+        <td>
+          New L3 under Facilities Services<br><br>
+          <span class="path-tag">Facilities & Operations → Facilities Services → Pest Control Services</span>
+        </td>
+        <td class="why-cell">Joint Commission requires documented pest control programs. Currently no node — routes to "Building Services" or "Maintenance." Small spend but important for compliance reporting.</td>
+        <td><span class="vendor-pill">Rentokil</span><span class="vendor-pill">Rollins</span><span class="vendor-pill">Terminix</span></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- FINANCE & ADMINISTRATION -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="domain-section">
+  <div class="domain-header bg-finance">
+    <h2>Finance & Administration</h2>
+    <div class="domain-count">5 missing nodes</div>
+  </div>
+  <table class="gap-table">
+    <thead><tr><th style="width:10%">Priority</th><th style="width:22%">Missing Node</th><th style="width:20%">Where It Goes</th><th style="width:24%">Why It's Needed</th><th>Typical Vendors</th></tr></thead>
+    <tbody>
+
+      <tr>
+        <td><span class="priority-badge p-high">High</span></td>
+        <td><strong>Banking & Treasury</strong><br><br>
+          <span class="path-tag new">Banking & Cash Management Fees</span><br>
+          <span class="path-tag new">Investment Management</span><br>
+          <span class="path-tag new">Payment Processing Services</span>
+        </td>
+        <td>
+          New L3s under Financial Services<br><br>
+          <span class="path-tag">Finance & Administration → Financial Services → Banking & Treasury</span>
+        </td>
+        <td class="why-cell">Banking fees, treasury management, and payment processing are common AP transactions that currently route to "Accounting Services" or "Risk Management" — neither is correct. Payment processors like Emdeon/Change Healthcare are also high-volume invoice vendors with no home.</td>
+        <td><span class="vendor-pill">Bank of America</span><span class="vendor-pill">JP Morgan</span><span class="vendor-pill">Change Healthcare</span><span class="vendor-pill">Waystar</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-high">High</span></td>
+        <td><strong>Travel & Meetings</strong><br><br>
+          <span class="path-tag new">Airfare</span><br>
+          <span class="path-tag new">Hotel & Lodging</span><br>
+          <span class="path-tag new">Car Rental & Ground Transport</span><br>
+          <span class="path-tag new">Meeting & Event Management</span>
+        </td>
+        <td>
+          New L3s under Admin - Professional Services<br><br>
+          <span class="path-tag">Finance & Administration → Admin - Professional Services → Travel & Meetings</span>
+        </td>
+        <td class="why-cell">Travel spend has no node and currently routes to "Other" under Admin - Management Services. For a system with staff across 11 campuses, travel is meaningful spend. Meeting management (conferences, board meetings) also has no home.</td>
+        <td><span class="vendor-pill">Concur</span><span class="vendor-pill">American Airlines</span><span class="vendor-pill">Marriott</span><span class="vendor-pill">Enterprise</span></td>
+      </tr>
+
+      <tr>
+        <td><span class="priority-badge p-medium">Medium</span></td>
+        <td><strong>Office Services & Printing</strong><br><br>
+          <span class="path-tag new">Printing & Copying Services</span><br>
+          <span class="path-tag new">Postage & Mailing</span><br>
+          <span class="path-tag new">Document Management & Shredding</span>
+        </td>
+        <td>
+          New L3s under Admin - Professional Services<br><br>
+          <span class="path-tag">Finance & Administration → Admin - Professional Services → Office Services</span>
+        </td>
+        <td class="why-cell">Print management contracts, postage meters, and document shredding (HIPAA requirement) are recurring spend with no home. Document shredding in particular is often confused with waste management — needs its own node to prevent misrouting.</td>
+        <td><span class="vendor-pill">Xerox</span><span class="vendor-pill">Ricoh</span><span class="vendor-pill">Shred-it</span><span class="vendor-pill">Iron Mountain</span></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- NON-ADDRESSABLE (MISSING ENTIRELY) -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="domain-section">
+  <div class="domain-header bg-nonadd">
+    <h2>Non-Addressable</h2>
+    <div class="domain-count">Entire L1 domain missing — critical gap</div>
+  </div>
+  <table class="gap-table">
+    <thead><tr><th style="width:10%">Priority</th><th style="width:22%">Missing Node</th><th style="width:20%">Where It Goes</th><th style="width:24%">Why It's Needed</th><th>Typical Vendors</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="priority-badge p-critical">Critical</span></td>
+        <td><strong>Non-Addressable — entire L1 missing</strong><br><br>
+          <span class="path-tag new">Salaries & Wages (AP-processed)</span><br>
+          <span class="path-tag new">Intercompany Transfers</span><br>
+          <span class="path-tag new">Government Payments & Taxes</span><br>
+          <span class="path-tag new">Regulatory Fines & Penalties</span><br>
+          <span class="path-tag new">GPO & Association Dues</span><br>
+          <span class="path-tag new">Research Grants & Funding</span>
+        </td>
+        <td>
+          New L1<br><br>
+          <span class="path-tag">Non-Addressable → Internal & Statutory</span><br>
+          <span class="path-tag">Non-Addressable → Organizational</span>
+        </td>
+        <td class="why-cell">Without a Non-Addressable bucket, pass-through payments (intercompany charges, government payments, taxes, settlements) have no home and will contaminate spend totals across every domain. This is not a sourcing spend category — procurement has no leverage here. Mixing it into addressable spend categories inflates totals and distorts savings opportunity analysis, which is the core purpose of this taxonomy.</td>
+        <td><span class="vendor-pill">Internal entities</span><span class="vendor-pill">IRS / State Tax</span><span class="vendor-pill">CMS</span><span class="vendor-pill">AHA</span><span class="vendor-pill">Vizient</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+<footer>SpendAI · Wellstar Taxonomy Gap Analysis · February 2026 · Updated_Taxonomy_02_20_2026_final.csv</footer>
+</body>
+</html>
