@@ -96,6 +96,28 @@
   .bg-nonadd { background: var(--c-nonadd); }
 
   footer { background: var(--ink); color: #7a7165; text-align: center; padding: 22px; font-size: 11px; font-family: 'IBM Plex Mono', monospace; }
+  .old-section-intro { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid #8a4c1a; border-radius: 0 5px 5px 0; padding: 16px 20px; margin-bottom: 28px; font-size: 13px; line-height: 1.7; color: var(--muted); }
+  .old-section-intro strong { color: var(--ink); }
+  .old-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 7px; border-radius: 3px; font-weight: 600; white-space: nowrap; display: inline-block; }
+  .old-badge-missing { background: var(--priority-critical); color: white; }
+  .old-badge-partial { background: var(--priority-high); color: white; }
+  .old-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; background: #2a2420; color: #c4b8a8; border-radius: 3px; padding: 2px 7px; display: inline-block; margin: 2px 2px 2px 0; }
+  .new-tag-g { font-family: 'IBM Plex Mono', monospace; font-size: 10px; background: #eef6f1; color: #1e6b47; border: 1px solid #a8d4bc; border-radius: 3px; padding: 2px 7px; display: inline-block; margin: 2px 2px 2px 0; }
+  .miss-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; background: #fdf0ee; color: var(--priority-critical); border: 1px solid #e8b4ae; border-radius: 3px; padding: 2px 7px; display: inline-block; margin: 2px 2px 2px 0; }
+  .part-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; background: #fef8ee; color: var(--priority-high); border: 1px solid #e8d4a0; border-radius: 3px; padding: 2px 7px; display: inline-block; margin: 2px 2px 2px 0; }
+  .old-gap-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 28px; }
+  .old-gap-table thead { background: #3a2010; color: #f7f0e8; }
+  .old-gap-table th { text-align: left; padding: 10px 14px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+  .old-gap-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; font-size: 12px; line-height: 1.55; }
+  .old-gap-table tr:last-child td { border-bottom: none; }
+  .old-gap-table tr:hover td { background: #faf8f5; }
+  .why-note { font-size: 11.5px; color: var(--muted); line-height: 1.6; margin-top: 4px; }
+  .why-note strong { color: var(--ink); }
+  .rec-grid-old { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .rec-card-old { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid; border-radius: 0 0 5px 5px; padding: 16px 18px; }
+  .rc-label-old { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 6px; }
+  .rc-title-old { font-weight: 700; font-size: 13.5px; margin-bottom: 6px; }
+  .rc-body-old { font-size: 12px; color: var(--muted); line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -110,8 +132,8 @@
   <div class="stat"><div class="stat-n" style="color:var(--priority-critical)">8</div><div class="stat-l">Critical Gaps</div></div>
   <div class="stat"><div class="stat-n" style="color:var(--priority-high)">14</div><div class="stat-l">High Priority</div></div>
   <div class="stat"><div class="stat-n" style="color:var(--priority-medium)">11</div><div class="stat-l">Medium Priority</div></div>
-  <div class="stat"><div class="stat-n">33</div><div class="stat-l">Total Missing Nodes</div></div>
-  <div class="stat"><div class="stat-n">6</div><div class="stat-l">Domains Affected</div></div>
+  <div class="stat"><div class="stat-n">33</div><div class="stat-l">Original Missing Nodes</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--priority-critical)">+13</div><div class="stat-l">Additional from Old Taxonomy</div></div>
 </div>
 
 <div class="container">
@@ -539,6 +561,239 @@
 
 </div>
 
-<footer>SpendAI · Wellstar Taxonomy Gap Analysis · February 2026 · Updated_Taxonomy_02_20_2026_final.csv</footer>
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- OLD TAXONOMY COMPARISON — ADDITIONAL GAPS IDENTIFIED     -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="container" style="padding-top:0">
+  <hr style="border:none;border-top:2px dashed var(--border);margin:0 0 48px">
+
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <div style="width:4px;height:36px;border-radius:2px;background:#8a4c1a;flex-shrink:0"></div>
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:600">Additional Gaps — Old Taxonomy Comparison</div>
+      <div style="font-size:12.5px;color:var(--muted);margin-top:2px">Cross-referencing the legacy taxonomy surfaced 13 more missing categories not caught in the initial review</div>
+    </div>
+  </div>
+
+  <div class="old-section-intro">
+    The legacy taxonomy organised clinical spend under department-named L2s (SURGERY, NURSING, CARDIOLOGY, LABORATORY). Comparing it against the current taxonomy revealed categories that existed in the old system — and are almost certainly present in Wellstar's AP data today — but have no equivalent node in the new structure. The <strong>Surgical Instruments gap was first discovered through a Stryker bipolar forceps test</strong>: six identical product lines scattered across four different L3 nodes because no Surgical Instruments node existed. The categories below were identified through the same lens.
+  </div>
+
+  <!-- FULLY MISSING -->
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;margin-top:36px">
+    <div style="width:4px;height:28px;border-radius:2px;background:var(--priority-critical);flex-shrink:0"></div>
+    <div style="font-size:16px;font-weight:700">Fully Missing L2 Categories</div>
+    <div style="font-size:11.5px;color:var(--muted);margin-left:4px">No equivalent node in current taxonomy</div>
+  </div>
+
+  <table class="old-gap-table">
+    <thead><tr>
+      <th style="width:9%">Status</th>
+      <th style="width:18%">Category</th>
+      <th style="width:28%">Old Taxonomy L3 Examples</th>
+      <th style="width:22%">Recommended New Node</th>
+      <th>Why It Matters</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="old-badge old-badge-missing">Missing</span></td>
+        <td><strong>Surgical Instruments & Hand Tools</strong><br><span style="font-size:10.5px;color:var(--muted)">Old: Surgery L2</span></td>
+        <td>
+          <span class="old-tag">SURGICAL INSTRUMENTS</span>
+          <span class="old-tag">LAPAROSCOPIC SURGICAL INSTRUMENTS</span>
+          <span class="old-tag">SURGICAL BLADES</span>
+          <span class="old-tag">SURGICAL HEADLIGHTS</span>
+          <span class="old-tag">SURGICAL MICROSCOPES</span>
+        </td>
+        <td><span class="new-tag-g">Surgical & OR Supplies → Surgical Instruments & Hand Tools</span><br><span class="new-tag-g">Surgical & OR Supplies → Bipolar & Monopolar Forceps</span></td>
+        <td class="why-note"><strong>Highest priority.</strong> Discovered via Stryker bipolar forceps test — six identical items split across Endomechanical, Surgical Energy Accessories, and Other. The old taxonomy had an explicit Surgical Instruments L3; the current taxonomy has nothing equivalent. Now added in v04.</td>
+      </tr>
+      <tr>
+        <td><span class="old-badge old-badge-missing">Missing</span></td>
+        <td><strong>Perfusion & Open Heart</strong><br><span style="font-size:10.5px;color:var(--muted)">Old: Surgery L2</span></td>
+        <td>
+          <span class="old-tag">OPEN HEART DISPOSABLE SUPPLIES</span>
+          <span class="old-tag">PERFUSION PRODUCTS</span>
+          <span class="old-tag">BIOLOGICAL BLOOD PLASMA</span>
+          <span class="old-tag">CARDIOVASCULAR SHUNTS</span>
+          <span class="old-tag">AUTO TRANSFUSION PRODUCTS</span>
+        </td>
+        <td><span class="new-tag-g">Perfusion & Open Heart → Perfusion Products & Circuits</span><br><span class="new-tag-g">Perfusion & Open Heart → Open Heart Disposable Supplies</span></td>
+        <td class="why-note">Bypass circuits, oxygenators, and cardioplegia supplies from LivaNova, Terumo, and Medtronic Perfusion had no home — split between Cardiovascular Supplies and Surgical & OR. Now a standalone L2 in v04.</td>
+      </tr>
+      <tr>
+        <td><span class="old-badge old-badge-missing">Missing</span></td>
+        <td><strong>GI & Gastroenterology</strong><br><span style="font-size:10.5px;color:var(--muted)">Old: Surgery L2</span></td>
+        <td>
+          <span class="old-tag">GASTROINTESTINAL ENDOSCOPY PRODUCTS</span>
+          <span class="old-tag">GI ENDOSCOPIC VIDEO CAPSULES</span>
+          <span class="old-tag">ANASTOMOTIC PRODUCTS</span>
+          <span class="old-tag">ESOPHAGEAL ABLATION</span>
+          <span class="old-tag">LAPAROSCOPIC GASTRIC BAND</span>
+        </td>
+        <td><span class="new-tag-g">GI & Gastroenterology Supplies → GI Endoscopy Consumables</span><br><span class="new-tag-g">GI & Gastroenterology Supplies → Anastomotic Products</span></td>
+        <td class="why-note">Only equipment (Endoscopy & Video Systems) was covered — not the consumable accessories. Biopsy forceps, polypectomy snares, hemostasis clips from Olympus and Boston Scientific had no classification path. New L2 added in v04.</td>
+      </tr>
+      <tr>
+        <td><span class="old-badge old-badge-missing">Missing</span></td>
+        <td><strong>Patient Warming & Temperature Mgmt</strong><br><span style="font-size:10.5px;color:var(--muted)">Old: Surgery L2</span></td>
+        <td>
+          <span class="old-tag">PATIENT WARMING - BLOOD AND FLUID WARMING</span>
+          <span class="old-tag">PATIENT WARMING - CONVECTIVE WARMING BLANKETS</span>
+          <span class="old-tag">TEMPERATURE MONITORING PRODUCTS</span>
+        </td>
+        <td><span class="new-tag-g">Surgical & OR Supplies → Patient Warming — Convective Blankets</span><br><span class="new-tag-g">Surgical & OR Supplies → Patient Warming — Blood & Fluid Warmers</span></td>
+        <td class="why-note">3M Bair Hugger, Smiths Medical fluid warmers, and temperature probes split between Surgical & OR and Nursing with no consistent home. Three dedicated L3 nodes added to Surgical & OR Supplies in v04.</td>
+      </tr>
+      <tr>
+        <td><span class="old-badge old-badge-missing">Missing</span></td>
+        <td><strong>Orthopedic Soft Goods & Casting</strong><br><span style="font-size:10.5px;color:var(--muted)">Old: Surgery L2</span></td>
+        <td>
+          <span class="old-tag">ORTHOPEDIC SOFT GOODS</span>
+          <span class="old-tag">CASTING AND SPLINTING PRODUCTS</span>
+          <span class="old-tag">ORTHOPEDIC HELMETS</span>
+          <span class="old-tag">TRACTION EQUIPMENT</span>
+        </td>
+        <td><span class="new-tag-g">Orthopedic Supplies → Orthopedic Soft Goods & Bracing</span><br><span class="new-tag-g">Orthopedic Supplies → Casting & Splinting Products</span></td>
+        <td class="why-note">Current Orthopedic Supplies only contained implants. BSN Medical, 3M, and DJO Global non-implant orthopedic products had no home. Four soft goods L3 nodes added in v04.</td>
+      </tr>
+      <tr>
+        <td><span class="old-badge old-badge-missing">Missing</span></td>
+        <td><strong>Dermatology</strong><br><span style="font-size:10.5px;color:var(--muted)">Old: Med/Surg L2</span></td>
+        <td>
+          <span class="old-tag">DERMATOLOGY PRODUCTS</span>
+        </td>
+        <td><span class="new-tag-g">Nursing & General Care Supplies → Dermatology Products</span></td>
+        <td class="why-note">If Wellstar operates dermatology or wound care programs, this spend currently routes to Nursing (too broad) or goes unclassified. Added as a dedicated L3 under Nursing & General Care in v04.</td>
+      </tr>
+      <tr>
+        <td><span class="old-badge old-badge-missing">Missing</span></td>
+        <td><strong>Dental</strong><br><span style="font-size:10.5px;color:var(--muted)">Old: Med/Surg L2</span></td>
+        <td>
+          <span class="old-tag">DENTAL SUPPLIES AND EQUIPMENT</span>
+        </td>
+        <td><span class="new-tag-g">Specialty Implant Supplies → Dental Supplies & Equipment</span></td>
+        <td class="why-note">Patterson Dental and Henry Schein invoices had no classification path. Added under Specialty Implant Supplies in v04.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- PARTIAL COVERAGE -->
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;margin-top:32px">
+    <div style="width:4px;height:28px;border-radius:2px;background:var(--priority-high);flex-shrink:0"></div>
+    <div style="font-size:16px;font-weight:700">Partial or Thin Coverage</div>
+    <div style="font-size:11.5px;color:var(--muted);margin-left:4px">Categories that exist but are significantly underdeveloped vs. the old taxonomy</div>
+  </div>
+
+  <table class="old-gap-table">
+    <thead><tr>
+      <th style="width:9%">Status</th>
+      <th style="width:16%">Category</th>
+      <th style="width:28%">What Was Missing</th>
+      <th style="width:22%">Nodes Added in v04</th>
+      <th>Gap</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="old-badge old-badge-partial">Partial</span></td>
+        <td><strong>Wound Care</strong></td>
+        <td>Old taxonomy had 8 granular wound care nodes. Current had one: "Wound Care Dressing."</td>
+        <td>
+          <span class="new-tag-g">Wound Care — Primary & Secondary Dressings</span>
+          <span class="new-tag-g">Wound Care — Skin Barrier & Cleanser Products</span>
+          <span class="new-tag-g">Wound Care — Compression & Vascular Wraps</span>
+          <span class="new-tag-g">Skin Breakdown Prevention Products</span>
+        </td>
+        <td class="why-note">3M, Mölnlycke, Smith+Nephew portfolios all collapsed into one bucket. $3–8M typical spend category losing all sub-category visibility.</td>
+      </tr>
+      <tr>
+        <td><span class="old-badge old-badge-partial">Partial</span></td>
+        <td><strong>Neurosurgery</strong></td>
+        <td>Old taxonomy had 5+ neurosurgery-specific nodes. Current had only 2 (Neuromodulation, Neurovascular IR).</td>
+        <td>
+          <span class="new-tag-g">Neurosurgical Disposables & Supplies</span>
+          <span class="new-tag-g">Neurosurgical Ablation Products</span>
+          <span class="new-tag-g">Neurocritical Care Products</span>
+          <span class="new-tag-g">ICP & Intracranial Monitoring</span>
+        </td>
+        <td class="why-note">Integra LifeSciences, Codman/DePuy, and Medtronic Neurovascular spend had no nuanced routing. Four nodes added in v04.</td>
+      </tr>
+      <tr>
+        <td><span class="old-badge old-badge-partial">Partial</span></td>
+        <td><strong>Vascular Surgery</strong></td>
+        <td>Vascular grafts, closure devices, thrombectomy, and vena cava filters split between Cardiovascular Supplies and Surgical & OR with no consistency.</td>
+        <td>
+          <span class="new-tag-g">Cardiovascular Supplies → Vascular Grafts</span>
+          <span class="new-tag-g">Cardiovascular Supplies → Vascular Closure Devices</span>
+          <span class="new-tag-g">Cardiovascular Supplies → Thrombectomy Products</span>
+          <span class="new-tag-g">Cardiovascular Supplies → Vena Cava Filters</span>
+          <span class="new-tag-g">Cardiovascular Supplies → Endovascular Vein Harvesting</span>
+        </td>
+        <td class="why-note">BD, Teleflex, and Penumbra invoices split inconsistently. All vascular products now consolidated under Cardiovascular Supplies in v04.</td>
+      </tr>
+      <tr>
+        <td><span class="old-badge old-badge-partial">Partial</span></td>
+        <td><strong>Urology</strong></td>
+        <td>Current taxonomy only had Urological Implants. General urological supplies and equipment had no home.</td>
+        <td>
+          <span class="new-tag-g">Specialty Implant Supplies → General Urological Supplies</span>
+          <span class="new-tag-g">Specialty Implant Supplies → Specialty Urological Products</span>
+        </td>
+        <td class="why-note">C.R. Bard, Coloplast, and Cook Medical non-implant urological lines had no classification path.</td>
+      </tr>
+      <tr>
+        <td><span class="old-badge old-badge-partial">Partial</span></td>
+        <td><strong>Anesthesia</strong></td>
+        <td>Regional anesthesia trays, video laryngoscopes, and airway management tools had no specific nodes within the combined Respiratory & Anesthesia L2.</td>
+        <td>
+          <span class="new-tag-g">Respiratory & Anesthesia Supplies → Regional Anesthesia Trays</span>
+          <span class="new-tag-g">Respiratory & Anesthesia Supplies → Laryngeal Mask Airways</span>
+          <span class="new-tag-g">Respiratory & Anesthesia Supplies → Video Laryngoscopes</span>
+          <span class="new-tag-g">Respiratory & Anesthesia Supplies → Pain Mgmt — Local Anesthetic Delivery</span>
+        </td>
+        <td class="why-note">Verathon, Karl Storz, and Draeger product lines now have dedicated nodes separating airway management from general respiratory therapy.</td>
+      </tr>
+      <tr>
+        <td><span class="old-badge old-badge-partial">Partial</span></td>
+        <td><strong>Ophthalmology</strong></td>
+        <td>Only Ophthalmic Implants covered. Surgical accessories, diagnostic equipment, and consumable supplies from Alcon and J&J Vision had no home.</td>
+        <td>
+          <span class="new-tag-g">Specialty Implant Supplies → Ophthalmic Surgical Supplies & Accessories</span>
+        </td>
+        <td class="why-note">Viscoelastics, phaco tips, and irrigation solutions needed a non-implant ophthalmic node.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- RECOMMENDATIONS -->
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;margin-top:32px">
+    <div style="width:4px;height:28px;border-radius:2px;background:#5b2c8a;flex-shrink:0"></div>
+    <div style="font-size:16px;font-weight:700">What To Do With This</div>
+  </div>
+  <div class="rec-grid-old">
+    <div class="rec-card-old" style="border-top-color:var(--priority-critical)">
+      <div class="rc-label-old">Option 1 — Minimum Viable</div>
+      <div class="rc-title-old">Add the 4 highest-impact nodes immediately</div>
+      <div class="rc-body-old">Surgical Instruments & Hand Tools, Perfusion & Open Heart, GI & Gastroenterology Supplies, and Patient Warming fix the largest spend gaps with the least taxonomy restructuring. All four are now included in <strong>Updated_Taxonomy_04_2026.csv</strong>.</div>
+    </div>
+    <div class="rec-card-old" style="border-top-color:var(--priority-high)">
+      <div class="rc-label-old">Option 2 — Team Validation</div>
+      <div class="rc-title-old">Run the old taxonomy L2 list by Wellstar's supply chain team</div>
+      <div class="rc-body-old">Share the legacy department L2 list (SURGERY, NURSING, CARDIOLOGY, etc.) and ask: <em>which of these do you currently track separately for budget or contract purposes?</em> This tells you which gaps matter vs. which are theoretical — faster than guessing.</div>
+    </div>
+    <div class="rec-card-old" style="border-top-color:var(--priority-medium)">
+      <div class="rc-label-old">Option 3 — Data-Driven Discovery</div>
+      <div class="rc-title-old">Run AP data through the taxonomy to find catch-alls</div>
+      <div class="rc-body-old">Run 3 months of AP line items through the current taxonomy. Any concentration in Endomechanical, Other, or Nursing & General Care signals a missing node underneath. The Stryker forceps test is a good template — test more vendors the same way.</div>
+    </div>
+    <div class="rec-card-old" style="border-top-color:#1a4a7a">
+      <div class="rc-label-old">Important Note</div>
+      <div class="rc-title-old">Don't encode department in taxonomy structure</div>
+      <div class="rc-body-old">The old taxonomy used department names (SURGERY, NURSING) as L2 for visibility — but this makes AI classification harder. Keep product-type L2s for AI accuracy and add a <strong>department tag or GL-mapping layer</strong> for reporting. Trying to do both in the taxonomy is what created the forceps problem.</div>
+    </div>
+  </div>
+</div>
+
+<footer>SpendAI · Wellstar Taxonomy Gap Analysis · February 2026 · Updated_Taxonomy_04_2026.csv</footer>
 </body>
 </html>
