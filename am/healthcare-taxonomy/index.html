@@ -153,8 +153,13 @@
       <tr>
         <td><span class="priority-badge p-critical">Critical</span></td>
         <td><strong>Laboratory — entire L2 missing</strong><br><br>
-          <span class="path-tag new">Lab Supplies & Reagents</span><br>
+          <span class="path-tag new">Chemistry & Immunoassay Reagents</span><br>
+          <span class="path-tag new">Point-of-Care Cartridges & Consumables</span><br>
+          <span class="path-tag new">Microbiology Supplies</span><br>
+          <span class="path-tag new">Histology & Cytology Supplies</span><br>
+          <span class="path-tag new">Instrument Maintenance & Wash Solutions</span><br>
           <span class="path-tag new">Lab Analyzers & Equipment</span><br>
+          <span class="path-tag new">Quality Control Materials</span><br>
           <span class="path-tag new">Reference & Outsourced Lab Services</span>
         </td>
         <td>
@@ -358,10 +363,20 @@
       <tr>
         <td><span class="priority-badge p-critical">Critical</span></td>
         <td><strong>Clinical Staffing breakdown</strong><br><br>
-          <span class="path-tag new">Travel & Contract Nursing</span><br>
-          <span class="path-tag new">Allied Health Staffing</span><br>
-          <span class="path-tag new">Physician & Advanced Practice Staffing</span><br>
-          <span class="path-tag new">Clinical Support Staffing</span>
+          <span class="path-tag new">Travel, Contract & Per Diem Nursing</span><br>
+          <span class="path-tag new">Specialty Nursing (ICU / OR / ER)</span><br>
+          <span class="path-tag new">Radiology & Imaging Technologists</span><br>
+          <span class="path-tag new">Laboratory Technicians</span><br>
+          <span class="path-tag new">Respiratory Therapists</span><br>
+          <span class="path-tag new">Physical & Occupational Therapists</span><br>
+          <span class="path-tag new">Surgical Technologists</span><br>
+          <span class="path-tag new">Locum Tenens Physicians</span><br>
+          <span class="path-tag new">Hospitalist Programs</span><br>
+          <span class="path-tag new">Nurse Practitioners & PAs</span><br>
+          <span class="path-tag new">CRNAs & Anesthesia Staff</span><br>
+          <span class="path-tag new">Medical Assistants</span><br>
+          <span class="path-tag new">Patient Care Technicians</span><br>
+          <span class="path-tag new">Phlebotomy & Specimen Collection Staff</span>
         </td>
         <td>
           New L2 + L3s under People & Workforce<br><br>
@@ -605,8 +620,8 @@
           <span class="old-tag">SURGICAL HEADLIGHTS</span>
           <span class="old-tag">SURGICAL MICROSCOPES</span>
         </td>
-        <td><span class="new-tag-g">Surgical & OR Supplies → Surgical Instruments & Hand Tools</span><br><span class="new-tag-g">Surgical & OR Supplies → Bipolar & Monopolar Forceps</span></td>
-        <td class="why-note"><strong>Highest priority.</strong> Discovered via Stryker bipolar forceps test — six identical items split across Endomechanical, Surgical Energy Accessories, and Other. The old taxonomy had an explicit Surgical Instruments L3; the current taxonomy has nothing equivalent. Now added in v04.</td>
+        <td><span class="new-tag-g">Surgical & OR Supplies → Surgical Instruments & Forceps</span><br><span class="new-tag-g">Surgical & OR Supplies → Laparoscopic Surgical Instruments</span><br><span class="new-tag-g">Surgical & OR Supplies → Surgical Blades & Scalpels</span></td>
+        <td class="why-note"><strong>Highest priority.</strong> Discovered via Stryker bipolar forceps test — six identical items split across Endomechanical, Surgical Energy Accessories, and Other. Fixed in v05: <em>Surgical Instruments & Hand Tools</em> (general parent) removed; <em>Bipolar & Monopolar Forceps</em> renamed to <strong>Surgical Instruments & Forceps</strong> as the specific catch-all for hand instruments. No general parent node sits above specific nodes.</td>
       </tr>
       <tr>
         <td><span class="old-badge old-badge-missing">Missing</span></td>
@@ -697,7 +712,7 @@
       <tr>
         <td><span class="old-badge old-badge-partial">Partial</span></td>
         <td><strong>Wound Care</strong></td>
-        <td>Old taxonomy had 8 granular wound care nodes. Current had one: "Wound Care Dressing."</td>
+        <td>Old taxonomy had 8 granular wound care nodes. Current had one: "Wound Care Dressing" — removed in v05 and replaced by three specific nodes.</td>
         <td>
           <span class="new-tag-g">Wound Care — Primary & Secondary Dressings</span>
           <span class="new-tag-g">Wound Care — Skin Barrier & Cleanser Products</span>
@@ -734,10 +749,9 @@
       <tr>
         <td><span class="old-badge old-badge-partial">Partial</span></td>
         <td><strong>Urology</strong></td>
-        <td>Current taxonomy only had Urological Implants. General urological supplies and equipment had no home.</td>
+        <td>Current taxonomy only had Urological Implants. General urological supplies and equipment had no home. Three separate urology nodes collapsed in v05.</td>
         <td>
-          <span class="new-tag-g">Specialty Implant Supplies → General Urological Supplies</span>
-          <span class="new-tag-g">Specialty Implant Supplies → Specialty Urological Products</span>
+          <span class="new-tag-g">Specialty Implant Supplies → Urological Supplies & Implants</span>
         </td>
         <td class="why-note">C.R. Bard, Coloplast, and Cook Medical non-implant urological lines had no classification path.</td>
       </tr>
@@ -756,9 +770,9 @@
       <tr>
         <td><span class="old-badge old-badge-partial">Partial</span></td>
         <td><strong>Ophthalmology</strong></td>
-        <td>Only Ophthalmic Implants covered. Surgical accessories, diagnostic equipment, and consumable supplies from Alcon and J&J Vision had no home.</td>
+        <td>Only Ophthalmic Implants covered. Surgical accessories and consumable supplies from Alcon and J&J Vision had no home. Two ophthalmic nodes collapsed in v05.</td>
         <td>
-          <span class="new-tag-g">Specialty Implant Supplies → Ophthalmic Surgical Supplies & Accessories</span>
+          <span class="new-tag-g">Specialty Implant Supplies → Ophthalmic Supplies & Implants</span>
         </td>
         <td class="why-note">Viscoelastics, phaco tips, and irrigation solutions needed a non-implant ophthalmic node.</td>
       </tr>
@@ -774,7 +788,7 @@
     <div class="rec-card-old" style="border-top-color:var(--priority-critical)">
       <div class="rc-label-old">Option 1 — Minimum Viable</div>
       <div class="rc-title-old">Add the 4 highest-impact nodes immediately</div>
-      <div class="rc-body-old">Surgical Instruments & Hand Tools, Perfusion & Open Heart, GI & Gastroenterology Supplies, and Patient Warming fix the largest spend gaps with the least taxonomy restructuring. All four are now included in <strong>Updated_Taxonomy_04_2026.csv</strong>.</div>
+      <div class="rc-body-old">Surgical Instruments & Forceps, Perfusion & Open Heart, GI & Gastroenterology Supplies, and Patient Warming fix the largest spend gaps with the least taxonomy restructuring. All are included in <strong>Updated_Taxonomy_05_2026.csv</strong>, which also collapses all parent/child overlaps identified in the v05 review.</div>
     </div>
     <div class="rec-card-old" style="border-top-color:var(--priority-high)">
       <div class="rc-label-old">Option 2 — Team Validation</div>
@@ -794,6 +808,152 @@
   </div>
 </div>
 
-<footer>SpendAI · Wellstar Taxonomy Gap Analysis · February 2026 · Updated_Taxonomy_04_2026.csv</footer>
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- V05 — PARENT/CHILD OVERLAP COLLAPSES                     -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="container" style="padding-top:0">
+  <hr style="border:none;border-top:2px dashed var(--border);margin:0 0 48px">
+
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <div style="width:4px;height:36px;border-radius:2px;background:#2e6b5c;flex-shrink:0"></div>
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:600">v05 — Parent/Child Overlap Collapses</div>
+      <div style="font-size:12.5px;color:var(--muted);margin-top:2px">Systematic review identified 12 cases where a general node sat alongside specific sub-nodes of itself — the same issue that caused the Stryker forceps split. All resolved in Updated_Taxonomy_05_2026.csv</div>
+    </div>
+  </div>
+
+  <div class="old-section-intro">
+    When a general node (e.g. <em>Surgical Instruments & Hand Tools</em>) sits at the same level as specific sub-nodes of itself (e.g. <em>Bipolar & Monopolar Forceps</em>, <em>Laparoscopic Surgical Instruments</em>), the AI has two valid classification targets for the same item and will split spend inconsistently based on minor description variation. The fix in all cases is <strong>Option A: remove the general parent, keep the specific nodes</strong>. Where multiple overlapping nodes covered the same concept, they were collapsed into one clean node.
+  </div>
+
+  <table class="old-gap-table">
+    <thead><tr>
+      <th style="width:20%">Domain / L2</th>
+      <th style="width:30%">What Was Removed / Collapsed</th>
+      <th style="width:30%">What Replaced It</th>
+      <th>Reason</th>
+    </tr></thead>
+    <tbody>
+
+      <tr>
+        <td><strong>Surgical & OR Supplies</strong></td>
+        <td>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">REMOVED: Surgical Instruments & Hand Tools</span><br>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">RENAMED: Bipolar & Monopolar Forceps</span>
+        </td>
+        <td>
+          <span class="new-tag-g">Surgical Instruments & Forceps</span> (catch-all for hand instruments)
+        </td>
+        <td class="why-note">General parent removed. Specific subtypes (Laparoscopic Instruments, Arthroscopy Supplies, Blades) kept. Forceps node renamed to serve as the remaining catch-all without being too broad.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Laboratory</strong></td>
+        <td>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">REMOVED: Lab Supplies & Reagents</span><br>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">RENAMED: Immunoassay & Chemistry Reagents</span>
+        </td>
+        <td>
+          <span class="new-tag-g">Chemistry & Immunoassay Reagents</span> + 6 other specific nodes
+        </td>
+        <td class="why-note">General "Lab Supplies & Reagents" parent removed — any lab item could route to it instead of the correct specific node. Specific nodes (Chemistry, Microbiology, Histology, POC, Instrument Maintenance, Analyzers, QC, Reference Lab) fully cover the space.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Specialty Implant Supplies</strong></td>
+        <td>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">COLLAPSED: Urological Implants + General Urological Supplies + Specialty Urological Products</span><br>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">COLLAPSED: Ophthalmic Implants + Ophthalmic Surgical Supplies & Accessories</span>
+        </td>
+        <td>
+          <span class="new-tag-g">Urological Supplies & Implants</span><br>
+          <span class="new-tag-g">Ophthalmic Supplies & Implants</span>
+        </td>
+        <td class="why-note">Three urology nodes and two ophthalmic nodes would each split the same vendor's invoices across multiple targets. Collapsed to one node each — broad enough to catch all spend, specific enough not to overlap with other L3s.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Nursing & General Care Supplies</strong></td>
+        <td>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">REMOVED: Wound Care Dressing</span><br>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">RENAMED: Negative Pressure Wound Therapy Supplies</span>
+        </td>
+        <td>
+          Three specific wound care nodes retained<br>
+          <span class="new-tag-g">NPWT Consumables & Supplies</span>
+        </td>
+        <td class="why-note">"Wound Care Dressing" directly overlapped with "Wound Care — Primary & Secondary Dressings." Original general node removed. NPWT node renamed to clearly distinguish consumables from the pump system node in Patient Care Equipment.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Patient Care & Monitoring Equipment</strong></td>
+        <td>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">RENAMED: Negative Pressure Wound Therapy Systems</span>
+        </td>
+        <td>
+          <span class="new-tag-g">NPWT Systems & Pumps</span>
+        </td>
+        <td class="why-note">Renamed to pair clearly with "NPWT Consumables & Supplies" in Nursing. The distinction (pump hardware vs. foam/canister consumables) is now explicit in both node names.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Respiratory & Anesthesia Supplies</strong></td>
+        <td>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">REMOVED: Anesthesia Disposables</span>
+        </td>
+        <td>
+          Regional Anesthesia Trays, Laryngeal Mask Airways, Video Laryngoscopes, Endotracheal Tubes, Pain Mgmt nodes retained
+        </td>
+        <td class="why-note">"Anesthesia Disposables" was a general catch-all — Regional Anesthesia Trays, LMAs, and ETTs are all anesthesia disposables. Removing the general parent forces all items to the correct specific node.</td>
+      </tr>
+
+      <tr>
+        <td><strong>People & Workforce</strong></td>
+        <td>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">REMOVED L2: Recruitment and Staffing Services (entire L2 + 2 child nodes)</span><br>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">REMOVED: Allied Health Staffing</span><br>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">REMOVED: Physician & Advanced Practice Staffing</span><br>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">REMOVED: Clinical Support Staffing</span><br>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">COLLAPSED: Travel & Contract Nursing + Per Diem & Agency Nursing</span>
+        </td>
+        <td>
+          Clinical Staffing, Non-Clinical Staffing, HR Services L2s retained with all specific role nodes<br>
+          <span class="new-tag-g">Travel, Contract & Per Diem Nursing</span>
+        </td>
+        <td class="why-note">Original "Recruitment and Staffing Services" stub L2 never removed when People & Workforce was properly built out — created a competing general bucket. Three general staffing parent nodes removed; specific role nodes (Locum Tenens, Hospitalists, NPs/PAs, CRNAs, Rad Techs, Lab Techs, etc.) fully cover the space. Travel and Per Diem nursing consolidated — both describe contract/temp nursing arrangements.</td>
+      </tr>
+
+      <tr>
+        <td><strong>IT-Hardware</strong></td>
+        <td>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">REMOVED: IT Infrastructure</span>
+        </td>
+        <td>
+          Computer Hardware, End-user Devices, Data and Telecom Infrastructure retained
+        </td>
+        <td class="why-note">"IT Infrastructure" was a general catch-all that overlapped with all three specific hardware nodes. Removed — specific nodes cover the full space.</td>
+      </tr>
+
+      <tr>
+        <td><strong>IT Services</strong></td>
+        <td>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#fdf0ee;color:#c0392b;border:1px solid #e8b4ae;border-radius:3px;padding:2px 7px;display:inline-block;margin:2px">REMOVED: Cybersecurity & HIPAA Compliance</span>
+        </td>
+        <td>
+          <span class="new-tag-g">HIPAA Risk Assessment & Compliance</span> (new specific node)<br>
+          Penetration Testing, SOC, Identity & Access Management retained
+        </td>
+        <td class="why-note">"Cybersecurity & HIPAA Compliance" was a general parent of the three specific security nodes. Removed and replaced with a specific "HIPAA Risk Assessment & Compliance" node so HIPAA audit spend has a home without a general catch-all above it.</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-left:4px solid #2e6b5c;border-radius:0 5px 5px 0;padding:14px 18px;font-size:12.5px;color:var(--muted);line-height:1.7;margin-top:8px">
+    <strong style="color:var(--ink)">One structural flag noted but deferred:</strong> Facilities & Operations → Facilities Services has 30 L3 nodes in a single flat L2. This is a signal overload issue (not a parent/child overlap) and was left as-is since Facilities is not a primary use case for this deployment. Revisit if Facilities spend analysis becomes a priority.
+  </div>
+</div>
+
+<footer>SpendAI · Wellstar Taxonomy Gap Analysis · February 2026 · Updated_Taxonomy_05_2026.csv</footer>
 </body>
 </html>
