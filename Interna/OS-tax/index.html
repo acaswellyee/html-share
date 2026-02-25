@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taxonomy Audit — Omaha Steaks</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0d0a;
+    --surface: #1a1712;
+    --surface2: #231f1a;
+    --border: #2e2921;
+    --accent: #c8813a;
+    --accent2: #e8a84e;
+    --red: #c84040;
+    --yellow: #c8a440;
+    --green: #4a9c5a;
+    --text: #e8e0d4;
+    --muted: #7a6e60;
+    --tag-bg: #2a2318;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 40px 48px 32px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  h1 span {
+    color: var(--accent);
+  }
+
+  .meta {
+    text-align: right;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .meta strong {
+    display: block;
+    color: var(--text);
+    font-size: 13px;
+  }
+
+  /* STATS ROW */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat {
+    padding: 24px 32px;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .red { color: var(--red); }
+  .yellow { color: var(--yellow); }
+  .green { color: var(--green); }
+  .accent { color: var(--accent); }
+
+  /* MAIN LAYOUT */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 200px);
+  }
+
+  .panel {
+    border-right: 1px solid var(--border);
+    padding: 0;
+  }
+  .panel:last-child { border-right: none; }
+
+  .panel-header {
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+  }
+
+  .panel-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .badge-red { background: rgba(200,64,64,0.15); color: var(--red); border: 1px solid rgba(200,64,64,0.3); }
+  .badge-yellow { background: rgba(200,164,64,0.15); color: var(--yellow); border: 1px solid rgba(200,164,64,0.3); }
+  .badge-green { background: rgba(74,156,90,0.15); color: var(--green); border: 1px solid rgba(74,156,90,0.3); }
+
+  /* CARDS */
+  .card {
+    margin: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    transition: background 0.15s;
+    cursor: default;
+  }
+
+  .card:hover {
+    background: var(--surface);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .priority {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  .p-high { background: rgba(200,64,64,0.12); color: var(--red); }
+  .p-med { background: rgba(200,164,64,0.12); color: var(--yellow); }
+  .p-low { background: rgba(74,156,90,0.12); color: var(--green); }
+
+  .card-desc {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+
+  .card-action {
+    display: inline-block;
+    font-size: 11px;
+    color: var(--accent2);
+    border: 1px solid rgba(200,129,58,0.25);
+    padding: 4px 10px;
+    border-radius: 2px;
+    background: rgba(200,129,58,0.06);
+  }
+
+  .path {
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--tag-bg);
+    padding: 2px 6px;
+    border-radius: 2px;
+    display: inline-block;
+    margin: 2px 2px 2px 0;
+  }
+
+  .arrow {
+    color: var(--accent);
+    margin: 0 4px;
+    font-style: normal;
+  }
+
+  /* CHANGES LOG */
+  .changes {
+    border-top: 1px solid var(--border);
+  }
+
+  .changes-header {
+    padding: 20px 48px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--surface);
+  }
+
+  .changes-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .changes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .change-item {
+    padding: 18px 32px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .change-item:nth-child(3n) { border-right: none; }
+
+  .change-type {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .type-add { color: var(--green); }
+  .type-rename { color: var(--yellow); }
+  .type-remove { color: var(--red); }
+  .type-merge { color: #6ab0c8; }
+  .type-nest { color: #a06ac8; }
+  .type-clarify { color: var(--accent); }
+
+  .change-desc {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .change-path {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+  }
+  .dot-red { background: var(--red); }
+  .dot-yellow { background: var(--yellow); }
+  .dot-green { background: var(--green); }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="eyebrow">Procurement Taxonomy · Non-Farm Food Production</div>
+    <h1>Audit Report<br><span>Omaha Steaks</span></h1>
+  </div>
+  <div class="meta">
+    <strong>v1 → v2</strong>
+    Direct Food + Indirect Spend<br>
+    Feb 2026
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num accent">295</div>
+    <div class="stat-label">Total Nodes (v2)</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num green">+12</div>
+    <div class="stat-label">Nodes Added</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num red">−3</div>
+    <div class="stat-label">Nodes Removed</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num yellow">8</div>
+    <div class="stat-label">Nodes Renamed/Clarified</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num accent">6</div>
+    <div class="stat-label">Overlaps Resolved</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- LEFT: MISSING NODES -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-title">Missing Nodes</div>
+      <span class="badge badge-red">5 gaps found</span>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-title">Plant-Based & Alternative Proteins</div>
+        <div class="priority p-high">🔴 High</div>
+      </div>
+      <div class="card-desc">No node existed for Beyond Meat, Impossible, cultured meat, or insect protein. Omaha Steaks carries these products. Created as standalone Subcategory1 to avoid burying under MEAT/SEAFOOD — which would confuse AI classifying animal vs. non-animal protein.</div>
+      <span class="path">FOOD/INGREDIENTS</span> <i class="arrow">›</i>
+      <span class="path">PLANT-BASED & ALTERNATIVE PROTEINS</span> <i class="arrow">›</i>
+      <span class="path">PLANT-BASED MEAT SUBSTITUTES</span><br>
+      <span class="path" style="margin-top:4px">+ CULTURED/LAB-GROWN MEAT</span>
+      <span class="path">+ INSECT PROTEIN</span>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-title">Marinades & Rubs</div>
+        <div class="priority p-med">🟡 Medium</div>
+      </div>
+      <div class="card-desc">Critical direct input for Omaha Steaks' marinated products. No home in existing CONDIMENTS nodes. Added as Subcategory2.</div>
+      <span class="path">FOOD/INGREDIENTS</span> <i class="arrow">›</i>
+      <span class="path">CONDIMENTS</span> <i class="arrow">›</i>
+      <span class="path">MARINADES & RUBS</span>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-title">Cold Chain Supplies</div>
+        <div class="priority p-high">🔴 High</div>
+      </div>
+      <div class="card-desc">Dry ice, gel packs, and insulated packaging are essential to Omaha Steaks' DTC model. No node captured this spend. Added under LOGISTICS.</div>
+      <span class="path">LOGISTICS</span> <i class="arrow">›</i>
+      <span class="path">COLD CHAIN SUPPLIES</span>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-title">Gift Boxes / Premium Packaging</div>
+        <div class="priority p-med">🟡 Medium</div>
+      </div>
+      <div class="card-desc">Omaha Steaks' branded gift boxes are core product packaging, not generic shipping. Nowhere in FIBER/WOOD PACKAGING captured premium/gift tier. Added as Subcategory2.</div>
+      <span class="path">PACKAGING</span> <i class="arrow">›</i>
+      <span class="path">FIBER/WOOD PACKAGING</span> <i class="arrow">›</i>
+      <span class="path">GIFT BOXES/PREMIUM PACKAGING</span>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-title">E-Commerce Platform</div>
+        <div class="priority p-med">🟡 Medium</div>
+      </div>
+      <div class="card-desc">IT SOFTWARE is too broad a catch-all for a primarily DTC brand's platform spend. Added as explicit Subcategory1 under IT/TELECOM for clean separation.</div>
+      <span class="path">IT/TELECOM</span> <i class="arrow">›</i>
+      <span class="path">E-COMMERCE PLATFORM</span>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: OVERLAPS -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-title">Overlap Issues</div>
+      <span class="badge badge-yellow">6 conflicts resolved</span>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-title">DAIRY & EGG PRODUCTS ↔ specific dairy nodes</div>
+        <div class="priority p-high">🔴 High Risk</div>
+      </div>
+      <div class="card-desc">A catch-all "DAIRY & EGG PRODUCTS" sat alongside BUTTER/CREAMERY, MILK, and CHEESE — creating ambiguity where any dairy invoice could land in 2 places. AI would split inconsistently.</div>
+      <span class="card-action">✓ Fixed → renamed to EGGS & EGG PRODUCTS only</span>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-title">IT/TELECOM STAFFING ↔ HR IT STAFFING</div>
+        <div class="priority p-high">🔴 High Risk</div>
+      </div>
+      <div class="card-desc">Exact duplicate concept in two categories. IT staffing invoices would randomly land in either IT/TELECOM or HR. No disambiguation possible for an AI tool.</div>
+      <span class="card-action">✓ Fixed → IT/TELECOM › STAFFING removed; route to HR</span>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-title">SOY & SOY PRODUCTS ↔ DAIRY ALTERNATIVES</div>
+        <div class="priority p-high">🔴 High Risk</div>
+      </div>
+      <div class="card-desc">Soy milk, tofu, and soy-based drinks are plausible members of both nodes. No AI could reliably distinguish without a usage context it won't have.</div>
+      <span class="card-action">✓ Fixed → scoped SOY node to "RAW/INDUSTRIAL INPUTS ONLY"</span>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-title">JAN-SAN/CLEANING ↔ JANITORIAL SERVICES</div>
+        <div class="priority p-med">🟡 Medium Risk</div>
+      </div>
+      <div class="card-desc">MRO/OEM > JAN-SAN is products; FACILITIES > JANITORIAL is services — logical distinction that an AI won't make on an invoice description alone without explicit labeling.</div>
+      <span class="card-action">✓ Fixed → added "(PRODUCTS ONLY)" and "(SERVICES ONLY)" tags</span>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-title">REFRIGERATED WAREHOUSING ↔ FOOD WAREHOUSING</div>
+        <div class="priority p-med">🟡 Medium Risk</div>
+      </div>
+      <div class="card-desc">Cold food storage belongs to both. No frozen steak vendor invoice would disambiguate these reliably. Merged into a single node.</div>
+      <span class="card-action">✓ Fixed → merged to REFRIGERATED/FOOD WAREHOUSING</span>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-title">DIGITAL MARKETING ↔ SEO ↔ SOCIAL MEDIA</div>
+        <div class="priority p-med">🟡 Medium Risk</div>
+      </div>
+      <div class="card-desc">SEO and Social Media/Influencer are sub-disciplines of Digital Marketing, sitting as peers at the same level. AI would classify the same vendor inconsistently across the three sibling nodes.</div>
+      <span class="card-action">✓ Fixed → SEO and SOCIAL MEDIA nested under DIGITAL MARKETING</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- CHANGES LOG -->
+<div class="changes">
+  <div class="changes-header">
+    <div class="changes-title">Full Change Log — v1 → v2</div>
+    <span class="badge badge-green">23 total changes</span>
+  </div>
+  <div class="changes-grid">
+
+    <div class="change-item">
+      <div class="change-type type-add">+ Added</div>
+      <div class="change-desc">PLANT-BASED & ALTERNATIVE PROTEINS (+ 3 children)</div>
+      <div class="change-path">FOOD/INGREDIENTS › new Subcategory1</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-add">+ Added</div>
+      <div class="change-desc">MARINADES & RUBS</div>
+      <div class="change-path">FOOD/INGREDIENTS › CONDIMENTS</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-add">+ Added</div>
+      <div class="change-desc">COLD CHAIN SUPPLIES</div>
+      <div class="change-path">LOGISTICS › new Subcategory1</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-add">+ Added</div>
+      <div class="change-desc">GIFT BOXES/PREMIUM PACKAGING</div>
+      <div class="change-path">PACKAGING › FIBER/WOOD PACKAGING</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-add">+ Added</div>
+      <div class="change-desc">E-COMMERCE PLATFORM</div>
+      <div class="change-path">IT/TELECOM › new Subcategory1</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-rename">~ Renamed</div>
+      <div class="change-desc">DAIRY & EGG PRODUCTS → EGGS & EGG PRODUCTS</div>
+      <div class="change-path">FOOD/INGREDIENTS › DAIRY</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-remove">− Removed</div>
+      <div class="change-desc">IT/TELECOM › STAFFING (duplicate of HR node)</div>
+      <div class="change-path">Route to: HR › CONTRACT LABOR/STAFFING › IT STAFFING</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-clarify">✎ Clarified</div>
+      <div class="change-desc">SOY & SOY PRODUCTS → "(RAW/INDUSTRIAL INPUTS ONLY)"</div>
+      <div class="change-path">FOOD/INGREDIENTS › OILSEED & FATS/OILS</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-merge">⊕ Merged</div>
+      <div class="change-desc">FOOD WAREHOUSING + REFRIGERATED WAREHOUSING → REFRIGERATED/FOOD WAREHOUSING</div>
+      <div class="change-path">LOGISTICS › WAREHOUSING</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-nest">⊂ Nested</div>
+      <div class="change-desc">SEO moved under DIGITAL MARKETING</div>
+      <div class="change-path">MARKETING › DIGITAL MARKETING › SEO</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-nest">⊂ Nested</div>
+      <div class="change-desc">SOCIAL MEDIA/INFLUENCER moved under DIGITAL MARKETING</div>
+      <div class="change-path">MARKETING › DIGITAL MARKETING › SOCIAL MEDIA/INFLUENCER</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-clarify">✎ Clarified</div>
+      <div class="change-desc">JAN-SAN/CLEANING → "(PRODUCTS ONLY)"</div>
+      <div class="change-path">MRO/OEM › GENERAL MRO</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-clarify">✎ Clarified</div>
+      <div class="change-desc">JANITORIAL SERVICES → "(SERVICES ONLY)"</div>
+      <div class="change-path">FACILITIES</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-clarify">✎ Clarified</div>
+      <div class="change-desc">OFFICE FURNITURE → "OFFICE FURNITURE (PURCHASE)"</div>
+      <div class="change-path">GENERAL/ADMIN › FURNITURE</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-clarify">✎ Clarified</div>
+      <div class="change-desc">FURNITURE → "FURNITURE (REPAIR ONLY)"</div>
+      <div class="change-path">MRO/OEM › REPAIR AND MAINTENANCE SERVICES</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-clarify">✎ Clarified</div>
+      <div class="change-desc">TESTING/CERTIFICATION → "(FOOD SAFETY/HACCP INCLUDED)"</div>
+      <div class="change-path">PROFESSIONAL SERVICES</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-add">+ Added</div>
+      <div class="change-desc">OTHER DIGITAL MARKETING (catch-all child)</div>
+      <div class="change-path">MARKETING › DIGITAL MARKETING</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-remove">− Removed</div>
+      <div class="change-desc">Top-level DIGITAL MARKETING node (peer to SEO, Social)</div>
+      <div class="change-path">Now parent node with children</div>
+    </div>
+
+    <div class="change-item">
+      <div class="change-type type-remove">− Removed</div>
+      <div class="change-desc">Top-level SEO node (peer-level)</div>
+      <div class="change-path">Now nested: MARKETING › DIGITAL MARKETING › SEO</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <span><span class="dot dot-red"></span>High Priority</span> &nbsp;
+    <span><span class="dot dot-yellow"></span>Medium Priority</span> &nbsp;
+    <span><span class="dot dot-green"></span>Low Priority / Resolved</span>
+  </div>
+  <div>Non-Farm Food Production Taxonomy · Omaha Steaks Audit · v2</div>
+</footer>
+
+</body>
+</html>
