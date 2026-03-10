@@ -532,15 +532,15 @@
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">PCM Categories</div>
-                        <div class="stat-value">98</div>
+                        <div class="stat-value">98 → 278</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">SpendAI Categories</div>
-                        <div class="stat-value">592</div>
+                        <div class="stat-value">592 → 681</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">Accuracy Gain</div>
-                        <div class="stat-value">+504%</div>
+                        <div class="stat-label">Improvement Gain</div>
+                        <div class="stat-value">+145%</div>
                     </div>
                 </div>
             </div>
@@ -562,11 +562,13 @@
                         <div class="metric-label">PCM Original Taxonomy</div>
                         <div class="metric-value">98</div>
                         <p style="margin-top: 0.5rem; color: var(--text-light);">Categories across 17 top-level groups</p>
+                        <p style="margin-top: 0.5rem; font-weight: 600; color: #10b981;">→ Improved to 278 categories</p>
                     </div>
                     <div class="metric">
                         <div class="metric-label">SpendAI-PCM Taxonomy</div>
                         <div class="metric-value">592</div>
                         <p style="margin-top: 0.5rem; color: var(--text-light);">Categories with 4-level hierarchy</p>
+                        <p style="margin-top: 0.5rem; font-weight: 600; color: #10b981;">→ Improved to 681 categories</p>
                     </div>
                 </div>
 
@@ -574,9 +576,11 @@
                     <h3>🏆 Recommendation: SpendAI-PCM Taxonomy</h3>
                     <p><strong>Clear Winner:</strong> The SpendAI-PCM taxonomy is significantly superior for automated AI classification of Precinmac's precision manufacturing parts.</p>
                     
-                    <p><strong>Key Advantage:</strong> 6x more categories (592 vs 98) with consistent hierarchy structure, dramatically reducing AI classification ambiguity and providing precise homes for specialized manufacturing tooling.</p>
+                    <p><strong>Key Advantage:</strong> 6x more categories (592 base, improved to 681) with consistent hierarchy structure, dramatically reducing AI classification ambiguity and providing precise homes for specialized manufacturing tooling.</p>
                     
                     <p><strong>Confidence Level:</strong> <span style="background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 4px;">Very High</span> — Based on analysis of 45,957 actual part descriptions from Precinmac's ERP system.</p>
+
+                    <p style="margin-top: 1rem; padding: 0.75rem; background: rgba(234,88,12,0.1); border-radius: 4px; border-left: 3px solid #ea580c;"><strong>⚠️ Note:</strong> See "Questions for Precinmac Team" section for 2 critical classification decisions needed before finalization.</p>
                 </div>
 
                 <div class="section-divider"></div>
@@ -584,25 +588,27 @@
                 <h2>Comparative Analysis</h2>
                 
                 <div class="success-box">
-                    <h3 style="color: #065f46; margin-top: 0;">✓ SpendAI-PCM Strengths</h3>
+                    <h3 style="color: #065f46; margin-top: 0;">✓ SpendAI-PCM Strengths (Improved v2)</h3>
                     <ul>
-                        <li><strong>Manufacturing-Specific Coverage:</strong> Dedicated categories for collets, guide bushings, cutting tools, thread inserts, and precision measurement equipment — exactly what Precinmac uses</li>
-                        <li><strong>Granular Precision:</strong> 592 categories vs 98 provides 6x more classification pathways, minimizing AI confusion</li>
+                        <li><strong>Manufacturing-Specific Coverage:</strong> Dedicated categories for collets (8 types), guide bushings (5 types), cutting tools, thread inserts, boring tools, toolholders, and precision measurement equipment — exactly what Precinmac uses</li>
+                        <li><strong>Granular Precision:</strong> 681 categories (improved from 592) provides 7x more classification pathways than PCM original, minimizing AI confusion</li>
                         <li><strong>Consistent 4-Level Hierarchy:</strong> Category → Subcategory1 → Subcategory2 → Subcategory3 structure is machine-parseable and unambiguous</li>
-                        <li><strong>Comprehensive MRO/OEM:</strong> Extensive specialty MRO coverage (abrasives, cutting tools, fasteners, welding) matches Precinmac's heavy tool consumption</li>
-                        <li><strong>Detailed Service Categories:</strong> OUTSOURCE has structured subcategories for anodizing, plating, coating — critical for aerospace parts</li>
+                        <li><strong>Comprehensive MRO/OEM:</strong> Extensive specialty MRO coverage (abrasives, cutting tools, fasteners, welding, gauges, collets) matches Precinmac's heavy tool consumption</li>
+                        <li><strong>Detailed Service Categories:</strong> OUTSOURCE > SURFACE FINISHING has structured subcategories for anodizing (Type II/III/Color), plating (electroless nickel, hard chrome, zinc), coating (powder, Teflon, ceramic), and surface prep — critical for aerospace parts</li>
+                        <li><strong>Complete Raw Materials:</strong> RAW MATERIALS > METALS includes ferrous/non-ferrous bar stock, sheet and plate, specialty alloys (titanium, Inconel, Hastelloy), and tube</li>
                         <li><strong>Minimal Overlap:</strong> Categories have clear boundaries with little cross-classification risk</li>
                     </ul>
                 </div>
 
                 <div class="danger-box">
-                    <h3 style="color: #991b1b; margin-top: 0;">✗ PCM Critical Weaknesses</h3>
+                    <h3 style="color: #991b1b; margin-top: 0;">✗ PCM Critical Weaknesses (Original — Partially Fixed in Improved v2)</h3>
                     <ul>
-                        <li><strong>Comma-Separated Lists Instead of Structure:</strong> Subcategory_2 contains "Screws, Bolts, Rivets, Washers, Nuts, Retaining Rings" as text, not discrete categories — AI cannot map to specific items</li>
-                        <li><strong>Massive Category Gaps:</strong> No categories for collets (363 parts), guide bushings (27 parts), precision gauges (85 parts), or specialized cutting tools (816 parts)</li>
-                        <li><strong>Service Categories Too Generic:</strong> "SURF TREATMENT" has no subcategories — cannot distinguish Type II anodize from powder coating</li>
-                        <li><strong>Multi-Classification Ambiguity:</strong> Fasteners could be Components OR MRO, adhesives could be Raw Materials OR MRO, O-rings could be Components OR MRO OR Raw Materials</li>
-                        <li><strong>Inconsistent Depth:</strong> Some branches 3 levels deep, others 1 level, with blank rows — makes parsing unreliable</li>
+                        <li><strong>Comma-Separated Lists Instead of Structure:</strong> Subcategory_2 contains "Screws, Bolts, Rivets, Washers, Nuts, Retaining Rings" as text, not discrete categories — AI cannot map to specific items <span style="color: #10b981;">✓ Fixed: Now discrete categories</span></li>
+                        <li><strong>Massive Category Gaps:</strong> No categories for collets (363 parts), guide bushings (25 parts), precision gauges (646 parts), or specialized cutting tools (2,962 parts) <span style="color: #10b981;">✓ Fixed: All added with detailed subcategories</span></li>
+                        <li><strong>Service Categories Too Generic:</strong> "SURF TREATMENT" has no subcategories — cannot distinguish Type II anodize from powder coating <span style="color: #10b981;">✓ Fixed: Added detailed surface finishing categories</span></li>
+                        <li><strong>Multi-Classification Ambiguity:</strong> Fasteners could be Components OR MRO, adhesives could be Raw Materials OR MRO, O-rings could be Components OR MRO OR Raw Materials <span style="color: #f59e0b;">⚠️ Improved but still present</span></li>
+                        <li><strong>Inconsistent Depth:</strong> Some branches 3 levels deep, others 1 level, with blank rows — makes parsing unreliable <span style="color: #f59e0b;">⚠️ Partially improved</span></li>
+                        <li><strong>Smaller Scale:</strong> Even after improvements (278 categories), still 2.4x fewer categories than SpendAI (681) — less precision for AI classification</li>
                     </ul>
                 </div>
 
@@ -627,49 +633,42 @@
                             <td class="data-point">363</td>
                             <td class="data-point">0.8%</td>
                             <td><span class="badge weakness">Missing</span></td>
-                            <td><span class="badge strength">Needs Addition</span></td>
+                            <td><span class="badge strength">Added ✓</span></td>
                         </tr>
                         <tr>
                             <td><strong>Guide Bushings</strong> (Meehanite, TD20R, TD32)</td>
-                            <td class="data-point">27</td>
+                            <td class="data-point">25</td>
                             <td class="data-point">0.1%</td>
                             <td><span class="badge weakness">Missing</span></td>
-                            <td><span class="badge strength">Needs Addition</span></td>
+                            <td><span class="badge strength">Added ✓</span></td>
                         </tr>
                         <tr>
                             <td><strong>Cutting Tools</strong> (End mills, drills, taps, reamers, inserts)</td>
-                            <td class="data-point">816</td>
-                            <td class="data-point">1.8%</td>
+                            <td class="data-point">2,962</td>
+                            <td class="data-point">6.4%</td>
                             <td><span class="badge overlap">Generic Tools Only</span></td>
                             <td><span class="badge strength">Covered</span></td>
                         </tr>
                         <tr>
                             <td><strong>Anodizing Services</strong> (Type II, Type III, Color)</td>
-                            <td class="data-point">421</td>
+                            <td class="data-point">396</td>
                             <td class="data-point">0.9%</td>
                             <td><span class="badge overlap">Generic "SURF TREATMENT"</span></td>
-                            <td><span class="badge strength">Needs Detail</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>3D Printing</strong> (PLA, ABS, CPE filaments)</td>
-                            <td class="data-point">3,515</td>
-                            <td class="data-point">7.6%</td>
-                            <td><span class="badge gap">Wrong Category (Resin)</span></td>
-                            <td><span class="badge strength">Needs Addition</span></td>
+                            <td><span class="badge strength">Added ✓</span></td>
                         </tr>
                         <tr>
                             <td><strong>Metrology Gauges</strong> (Thread, plug, ring gauges)</td>
-                            <td class="data-point">85</td>
-                            <td class="data-point">0.2%</td>
+                            <td class="data-point">646</td>
+                            <td class="data-point">1.4%</td>
                             <td><span class="badge overlap">Generic "Calibration"</span></td>
-                            <td><span class="badge strength">Needs Detail</span></td>
+                            <td><span class="badge strength">Added ✓</span></td>
                         </tr>
                         <tr>
                             <td><strong>Raw Metal Stock</strong> (Bar, sheet, plate)</td>
                             <td class="data-point">318</td>
                             <td class="data-point">0.7%</td>
+                            <td><span class="badge strength">Added ✓</span></td>
                             <td><span class="badge strength">Covered</span></td>
-                            <td><span class="badge weakness">Missing Entirely</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -677,47 +676,87 @@
                 <div class="section-divider"></div>
 
                 <h2>Critical Gaps by Taxonomy</h2>
+                <p style="margin-bottom: 1.5rem; padding: 1rem; background: #ecfdf5; border-radius: 8px; border-left: 4px solid #10b981;">
+                    <strong>✓ Status:</strong> Both taxonomies have been improved with recommended additions. Download the enhanced CSVs below to see all changes. Gaps listed below reflect the <em>original</em> taxonomies before improvements.
+                </p>
 
                 <div class="comparison-grid">
                     <div class="card" style="background: #fef3c7;">
-                        <h3>PCM Taxonomy Gaps</h3>
+                        <h3>PCM Original Gaps (Now Fixed in Improved v2)</h3>
                         <ul class="issue-list">
                             <li class="gap">
                                 <strong>Collets & Work Holding</strong>
                                 <p>363 parts with no home: 5C, 16C, 22J, B42, TF20, TD20, emergency collets, bar loader collets</p>
+                                <p style="color: #10b981; margin-top: 0.5rem;">✓ Added under Manufacturing Tooling > Collets with 8 detailed subcategories</p>
                             </li>
                             <li class="gap">
                                 <strong>Guide Bushings</strong>
-                                <p>27 parts: Meehanite, TD20R, TD32 Swiss machining tooling</p>
+                                <p>25 parts: Meehanite, TD20R, TD32 Swiss machining tooling</p>
+                                <p style="color: #10b981; margin-top: 0.5rem;">✓ Added under Manufacturing Tooling > Guide Bushings with 5 types</p>
                             </li>
                             <li class="gap">
-                                <strong>Specialized Cutting Tools</strong>
-                                <p>816 parts: End mills, carbide inserts, reamers - only generic "Hand Tools" exists</p>
+                                <strong>Precision Gauges</strong>
+                                <p>646 parts: Thread/plug/ring gauges - only generic "Calibration" existed</p>
+                                <p style="color: #10b981; margin-top: 0.5rem;">✓ Added Manufacturing Tooling > Gauges & Standards with thread/plug/ring/pin gauges + gage blocks</p>
                             </li>
                             <li class="gap">
                                 <strong>Surface Finishing Details</strong>
-                                <p>421 parts: Type II vs Type III anodize, Teflon coating, bead blast - all lumped as "SURF TREATMENT"</p>
+                                <p>396 parts: Type II vs Type III anodize, Teflon coating - all lumped as "SURF TREATMENT"</p>
+                                <p style="color: #10b981; margin-top: 0.5rem;">✓ Added Outside Services > Surface Finishing with anodizing (Type II/III/Color), plating, coating details</p>
                             </li>
                         </ul>
                     </div>
 
                     <div class="card" style="background: #dbeafe;">
-                        <h3>SpendAI-PCM Gaps</h3>
+                        <h3>SpendAI Original Gaps (Now Fixed in Improved v2)</h3>
                         <ul class="issue-list">
                             <li class="gap">
-                                <strong>RAW MATERIALS (Entire Category Missing)</strong>
-                                <p>318 parts: aluminum bar, steel sheet, brass rod - no raw materials category exists</p>
+                                <strong>Collets & Work Holding</strong>
+                                <p>363 parts: No collet categories existed</p>
+                                <p style="color: #10b981; margin-top: 0.5rem;">✓ Added MRO/OEM > SPECIALTY MRO > COLLETS AND WORK HOLDING with 8 detailed types</p>
                             </li>
                             <li class="gap">
-                                <strong>Collets (Need Addition)</strong>
-                                <p>363 parts: Should add under MRO/OEM > SPECIALTY MRO > COLLETS AND WORK HOLDING</p>
+                                <strong>Guide Bushings</strong>
+                                <p>25 parts: Missing entirely</p>
+                                <p style="color: #10b981; margin-top: 0.5rem;">✓ Added MRO/OEM > SPECIALTY MRO > GUIDE BUSHINGS with 5 varieties</p>
                             </li>
                             <li class="gap">
-                                <strong>3D Printing Supplies</strong>
-                                <p>3,515 parts: PLA/ABS/CPE filaments, print cores - should add to GENERAL MRO</p>
+                                <strong>Precision Gauges</strong>
+                                <p>646 parts: Generic "MEASURING INSTRUMENTS" only</p>
+                                <p style="color: #10b981; margin-top: 0.5rem;">✓ Added detailed subcategories: GAUGES AND STANDARDS + PRECISION MEASURING TOOLS</p>
+                            </li>
+                            <li class="gap">
+                                <strong>Surface Finishing Services</strong>
+                                <p>396 parts: Only generic "METAL FINISHING > PLATING"</p>
+                                <p style="color: #10b981; margin-top: 0.5rem;">✓ Added OUTSOURCE > SURFACE FINISHING with anodizing (Type II/III/Color), plating, coating, surface prep</p>
+                            </li>
+                            <li class="gap">
+                                <strong>Toolholders & Retention</strong>
+                                <p>Missing CAT/HSK holders, ER collet nuts, retention knobs, drawbars</p>
+                                <p style="color: #10b981; margin-top: 0.5rem;">✓ Added MRO/OEM > SPECIALTY MRO > TOOLHOLDERS AND RETENTION</p>
+                            </li>
+                            <li class="gap">
+                                <strong>Boring Tools</strong>
+                                <p>Missing boring bars, heads, micro-boring tools</p>
+                                <p style="color: #10b981; margin-top: 0.5rem;">✓ Added MRO/OEM > SPECIALTY MRO > BORING TOOLS</p>
                             </li>
                         </ul>
                     </div>
+                </div>
+
+                <div class="card" style="margin-top: 1.5rem; background: #fef2f2; border-left: 4px solid #dc2626;">
+                    <h3 style="margin-top: 0; color: #991b1b;">⚠️ Remaining Structural Difference</h3>
+                    <p><strong>Production Components Gap in SpendAI:</strong> PCM improved taxonomy includes dedicated COMPONENTS and SUBASSEMBLIES categories for:</p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>Production Fasteners (screws, bolts, nuts, washers that go into customer parts)</li>
+                        <li>Bearings & Bushings (ball bearings, roller bearings, bronze bushings)</li>
+                        <li>Springs (compression, torsion, leaf)</li>
+                        <li>Electronics & Electrical (relays, switches, PCBs, sensors, ICs)</li>
+                        <li>Hydraulic/Pneumatic Components (valves, cylinders, pumps)</li>
+                        <li>Wiring Harnesses & PCB Assemblies</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>SpendAI Approach:</strong> These items fall under generic MANUFACTURED ITEMS > METAL PARTS or MRO/OEM categories without production vs. maintenance distinction.</p>
+                    <p style="margin-top: 1rem;"><strong>Resolution needed:</strong> See "Questions for Precinmac Team" above to determine if SpendAI needs a dedicated COMPONENTS category.</p>
                 </div>
 
                 <div class="section-divider"></div>
@@ -785,15 +824,47 @@
 
                 <div class="section-divider"></div>
 
+                <h2>⚠️ Questions for Precinmac Team</h2>
+                <div class="card" style="background: #fff7ed; border-left: 4px solid #f97316;">
+                    <h3 style="margin-top: 0; color: #c2410c;">Critical Classification Questions</h3>
+                    
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; background: white; border-radius: 8px;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: #ea580c;">1. 3D Printing Materials Usage (3,600 parts, 7.8% of inventory)</h4>
+                        <p style="margin: 0.5rem 0;"><strong>Observation:</strong> Large volume of PLA, ABS, CPE filaments, print cores, and build plates detected.</p>
+                        <p style="margin: 0.5rem 0;"><strong>Question:</strong> Precinmac is a precision CNC/Swiss machining operation. Are these 3D printing materials:</p>
+                        <ul style="margin: 0.5rem 0 0 1.5rem;">
+                            <li>Used for prototyping/tooling fixtures?</li>
+                            <li>For a separate business unit/division?</li>
+                            <li>Legacy inventory no longer used?</li>
+                            <li>Incorrectly categorized items?</li>
+                        </ul>
+                        <p style="margin: 0.5rem 0 0 0;"><strong>Impact:</strong> Affects whether to include "3D PRINTING SUPPLIES" category in final taxonomy. Both improved taxonomies currently include this category pending clarification.</p>
+                    </div>
+
+                    <div style="padding: 1rem; background: white; border-radius: 8px;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: #ea580c;">2. Production Components vs. MRO Classification</h4>
+                        <p style="margin: 0.5rem 0;"><strong>Question:</strong> How does Precinmac distinguish between:</p>
+                        <ul style="margin: 0.5rem 0; margin-left: 1.5rem;">
+                            <li><strong>Production Components:</strong> Fasteners, bearings, O-rings, electronics that become part of customer deliverables</li>
+                            <li><strong>MRO Supplies:</strong> The same items used for machine maintenance and facility operations</li>
+                        </ul>
+                        <p style="margin: 0.5rem 0;"><strong>Background:</strong> PCM improved taxonomy has detailed COMPONENTS and SUBASSEMBLIES categories. SpendAI taxonomy treats most of these as MRO items only.</p>
+                        <p style="margin: 0.5rem 0 0 0;"><strong>Impact:</strong> Determines whether SpendAI taxonomy needs a new top-level COMPONENTS category or if all such items should remain under MRO/OEM.</p>
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+
                 <h2>Recommended Next Steps</h2>
                 <div class="card" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid var(--accent);">
                     <h3 style="margin-top: 0;">Implementation Roadmap</h3>
                     <ol style="font-size: 1.1rem;">
-                        <li><strong>Adopt SpendAI-PCM as Base:</strong> Start with the 592-category SpendAI-PCM taxonomy for superior structure and coverage</li>
-                        <li><strong>Implement Recommended Additions:</strong> Add missing categories (RAW MATERIALS, COLLETS, 3D PRINTING, etc.) as detailed in SpendAI-PCM tab</li>
-                        <li><strong>Download Improved Taxonomy:</strong> Use the improved CSV (681 categories) for AI training</li>
-                        <li><strong>Train Classification Model:</strong> Use improved taxonomy + actual Precinmac part descriptions for supervised learning</li>
-                        <li><strong>Validate & Iterate:</strong> Test on sample parts, measure accuracy, refine categories as needed</li>
+                        <li><strong>Answer Critical Questions:</strong> See "Questions for Precinmac Team" section above — clarify 3D printing usage and production components vs. MRO classification approach</li>
+                        <li><strong>Adopt SpendAI-PCM as Base:</strong> Start with the 681-category SpendAI-PCM improved taxonomy for superior structure and coverage</li>
+                        <li><strong>Optional Refinements:</strong> Based on team answers, add COMPONENTS category to SpendAI taxonomy if needed, or remove 3D PRINTING SUPPLIES if not used</li>
+                        <li><strong>Download Improved Taxonomy:</strong> Use the improved CSV (681 categories) for AI training — all critical manufacturing gaps already fixed</li>
+                        <li><strong>Train Classification Model:</strong> Use improved taxonomy + actual Precinmac part descriptions (45,957 parts) for supervised learning</li>
+                        <li><strong>Validate & Iterate:</strong> Test on sample parts, measure accuracy, refine categories as needed based on real-world performance</li>
                     </ol>
                 </div>
 
