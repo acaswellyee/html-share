@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taxonomy Audit v3 — Food & Beverage Client</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1f0c;
+  --surface-1: #162b12;
+  --surface-2: #1a3215;
+  --surface-3: #203d1a;
+  --border-subtle: rgba(255,255,255,0.07);
+  --border-mid: rgba(255,255,255,0.12);
+  --amber: #E6FF2D;
+  --amber-light: #E6FF2D;
+  --amber-glow: rgba(230,255,45,0.12);
+  --red: #c94545;
+  --red-glow: rgba(201,69,69,0.12);
+  --yellow: #c9a830;
+  --yellow-glow: rgba(201,168,48,0.12);
+  --green: #4db870;
+  --green-glow: rgba(77,184,112,0.12);
+  --blue: #4a85c9;
+  --purple: #8a6ac9;
+  --teal: #3aa0a0;
+  --text-primary: #ffffff;
+  --text-secondary: #a8c4a0;
+  --text-muted: #5a7a54;
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3);
+  --shadow-hover: 0 8px 40px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.4);
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ─── GRAIN TEXTURE ─── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ─── HEADER ─── */
+.header {
+  position: relative;
+  overflow: hidden;
+  padding: 48px 40px 40px;
+  background: var(--surface-1);
+  border-bottom: 1px solid var(--border-mid);
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(230,255,45,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.header-inner {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.eyebrow {
+  font-family: 'DM Sans', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 20px; height: 1px;
+  background: var(--amber);
+}
+
+h1 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+h1 em {
+  font-style: normal;
+  color: var(--amber);
+}
+
+.header-meta {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.version-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-mid);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-family: 'DM Sans', monospace;
+  font-size: 11px;
+  color: var(--amber);
+  margin-bottom: 8px;
+}
+
+.version-badge span {
+  color: var(--text-muted);
+}
+
+.header-meta p {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ─── STATS ─── */
+.stats-section {
+  background: var(--surface-1);
+  border-bottom: 1px solid var(--border-mid);
+  padding: 0 40px;
+}
+
+.stats-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+}
+
+.stat {
+  padding: 28px 20px;
+  border-right: 1px solid var(--border-subtle);
+  position: relative;
+  transition: background 0.2s;
+}
+
+.stat:last-child { border-right: none; }
+
+.stat:hover { background: var(--surface-2); }
+
+.stat-num {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: 'DM Sans', monospace;
+  line-height: 1.4;
+}
+
+.c-amber { color: var(--amber); }
+.c-green { color: var(--green); }
+.c-red { color: var(--red); }
+.c-yellow { color: var(--yellow); }
+.c-blue { color: var(--blue); }
+
+/* ─── MAIN CONTENT ─── */
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 40px;
+}
+
+/* ─── SECTION HEADERS ─── */
+.section-label {
+  font-family: 'DM Sans', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+/* ─── VERSION TIMELINE ─── */
+.version-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.version-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+
+.version-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.version-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.version-card.v1::before { background: var(--text-muted); }
+.version-card.v2::before { background: linear-gradient(90deg, var(--amber), var(--amber-light)); }
+.version-card.v3::before { background: linear-gradient(90deg, var(--green), #7dd89a); }
+
+.version-tag {
+  font-family: 'DM Sans', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.version-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.version-card.v2 .version-title { color: var(--amber); }
+.version-card.v3 .version-title { color: #7dd89a; }
+
+.version-changes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.version-changes li {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.version-changes li::before {
+  content: '›';
+  color: var(--amber);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ─── TWO-COL GRID ─── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+/* ─── AUDIT CARDS ─── */
+.audit-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+}
+
+.audit-card-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--surface-2);
+}
+
+.audit-card-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.pill {
+  font-family: 'DM Sans', monospace;
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.pill-red { background: var(--red-glow); color: var(--red); border: 1px solid rgba(201,69,69,0.25); }
+.pill-yellow { background: var(--yellow-glow); color: var(--yellow); border: 1px solid rgba(201,168,48,0.25); }
+.pill-green { background: var(--green-glow); color: var(--green); border: 1px solid rgba(74,153,96,0.25); }
+.pill-blue { background: rgba(74,133,201,0.1); color: var(--blue); border: 1px solid rgba(74,133,201,0.25); }
+
+/* ─── FINDING ITEMS ─── */
+.finding {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background 0.15s;
+  cursor: default;
+}
+
+.finding:last-child { border-bottom: none; }
+.finding:hover { background: var(--surface-2); }
+
+.finding-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.finding-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.priority-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.dot-red { background: var(--red); box-shadow: 0 0 6px var(--red); }
+.dot-yellow { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
+.dot-green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+
+.finding-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+
+.path-chain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.path-node {
+  font-family: 'DM Sans', monospace;
+  font-size: 10px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-subtle);
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.path-node.new {
+  background: rgba(74,153,96,0.12);
+  border-color: rgba(74,153,96,0.3);
+  color: #7dd89a;
+}
+
+.path-arrow {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.resolution {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--amber);
+  background: var(--amber-glow);
+  border: 1px solid rgba(230,255,45,0.18);
+  border-radius: 4px;
+  padding: 4px 10px;
+}
+
+.resolution::before { content: '✓'; color: var(--green); }
+
+/* ─── CHANGE LOG ─── */
+.changelog-section {
+  margin-bottom: 48px;
+}
+
+.changelog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.change-tile {
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.change-tile:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.change-tile::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+}
+
+.tile-add::after { background: var(--green); }
+.tile-rename::after { background: var(--yellow); }
+.tile-remove::after { background: var(--red); }
+.tile-merge::after { background: var(--teal); }
+.tile-nest::after { background: var(--purple); }
+.tile-clarify::after { background: var(--amber); }
+
+.change-type-label {
+  font-family: 'DM Sans', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.type-add { color: var(--green); }
+.type-rename { color: var(--yellow); }
+.type-remove { color: var(--red); }
+.type-merge { color: var(--teal); }
+.type-nest { color: var(--purple); }
+.type-clarify { color: var(--amber); }
+
+.change-desc {
+  font-size: 12px;
+  color: var(--text-primary);
+  line-height: 1.45;
+  margin-bottom: 4px;
+}
+
+.change-path {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: 'DM Sans', monospace;
+}
+
+/* ─── V3 HIGHLIGHT BANNER ─── */
+.v3-banner {
+  background: linear-gradient(135deg, rgba(74,153,96,0.1), rgba(74,153,96,0.04));
+  border: 1px solid rgba(74,153,96,0.25);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 48px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.v3-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.v3-banner-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #7dd89a;
+  margin-bottom: 6px;
+}
+
+.v3-banner-body {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.v3-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.v3-tag {
+  font-family: 'DM Sans', monospace;
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: rgba(74,153,96,0.12);
+  border: 1px solid rgba(74,153,96,0.3);
+  color: #7dd89a;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: var(--surface-1);
+}
+
+.footer-legend {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: 'DM Sans', monospace;
+}
+
+.legend-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+}
+
+footer p {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: 'DM Sans', monospace;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.header-inner { animation: fadeUp 0.5s ease both; }
+.stats-inner  { animation: fadeUp 0.5s 0.1s ease both; }
+.version-row  { animation: fadeUp 0.5s 0.15s ease both; }
+.two-col      { animation: fadeUp 0.5s 0.2s ease both; }
+.changelog-grid { animation: fadeUp 0.5s 0.25s ease both; }
+
+/* ─── MOBILE ─── */
+@media (max-width: 900px) {
+  .header { padding: 32px 24px 28px; }
+  .stats-section { padding: 0 24px; }
+  .content { padding: 32px 24px; }
+  footer { padding: 20px 24px; }
+
+  .stats-inner {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .stat:nth-child(3) { border-right: none; }
+  .stat:nth-child(4) { border-top: 1px solid var(--border-subtle); }
+  .stat:nth-child(5) { border-top: 1px solid var(--border-subtle); border-right: none; }
+
+  .version-row { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .changelog-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .header-inner { flex-direction: column; align-items: flex-start; }
+  .header-meta { text-align: left; }
+
+  .stats-inner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stat:nth-child(2) { border-right: none; }
+  .stat:nth-child(3) { border-right: 1px solid var(--border-subtle); border-top: 1px solid var(--border-subtle); }
+  .stat:nth-child(4) { border-right: none; }
+  .stat:nth-child(5) { grid-column: 1 / -1; border-top: 1px solid var(--border-subtle); border-right: none; }
+
+  .changelog-grid { grid-template-columns: 1fr; }
+
+  .finding-top { flex-direction: row; }
+  .audit-card-header { flex-wrap: wrap; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div>
+      <div class="eyebrow">SpendAI · Procurement Taxonomy · Non-Farm Food Production</div>
+      <h1>Audit Report<br><em>Food &amp; Beverage Client</em></h1>
+    </div>
+    <div class="header-meta">
+      <div class="version-badge"><span>v1</span> → <span>v2</span> → v3</div>
+      <p>Direct Food + Indirect Spend</p>
+      <p style="margin-top:2px">Feb 2026</p>
+    </div>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-num c-amber">435</div>
+      <div class="stat-label">Total Nodes (v3)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num c-green">+25</div>
+      <div class="stat-label">Nodes Added</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num c-red">−3</div>
+      <div class="stat-label">Removed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num c-yellow">10</div>
+      <div class="stat-label">Renamed/Clarified</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num c-blue">8</div>
+      <div class="stat-label">Overlaps Resolved</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="content">
+
+  <!-- VERSION TIMELINE -->
+  <div class="section-label">Version History</div>
+  <div class="version-row">
+    <div class="version-card v1">
+      <div class="version-tag">Version 1 · Baseline</div>
+      <div class="version-title" style="color:var(--text-muted)">Initial Taxonomy</div>
+      <ul class="version-changes">
+        <li>Original non-farm food production taxonomy</li>
+        <li>No plant-based protein nodes</li>
+        <li>Several overlap risks present</li>
+        <li>No construction/renovation nodes</li>
+        <li>No cold chain packaging node</li>
+      </ul>
+    </div>
+    <div class="version-card v2">
+      <div class="version-tag">Version 2 · Client Audit</div>
+      <div class="version-title">DTC & Overlap Pass</div>
+      <ul class="version-changes">
+        <li>Added Plant-Based & Alternative Proteins</li>
+        <li>Renamed DAIRY & EGG PRODUCTS → EGGS ONLY</li>
+        <li>Removed duplicate IT/TELECOM STAFFING</li>
+        <li>Merged food + refrigerated warehousing</li>
+        <li>Nested SEO & Social under Digital Marketing</li>
+        <li>Added Cold Chain Supplies, Gift Packaging, E-Commerce Platform</li>
+      </ul>
+    </div>
+    <div class="version-card v3">
+      <div class="version-tag">Version 3 · Vendor Data Pass</div>
+      <div class="version-title">Vendor-Validated</div>
+      <ul class="version-changes">
+        <li>Added CONSTRUCTION & RENOVATION under FACILITIES (8 children)</li>
+        <li>Added OCCUPATIONAL HEALTH SERVICES under HR</li>
+        <li>Added LAMB/EXOTIC MEATS under MEAT/SEAFOOD</li>
+        <li>Added INSULATED SHIPPERS/COLD-CHAIN PACKAGING under PACKAGING</li>
+        <li>Healthcare spend consolidated into HR (no new top-level)</li>
+        <li>Construction kept inside FACILITIES (not elevated)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- V3 RATIONALE BANNER -->
+  <div class="v3-banner">
+    <div class="v3-icon">💡</div>
+    <div>
+      <div class="v3-banner-title">V3 Design Decisions</div>
+      <div class="v3-banner-body">
+        Two deliberate choices kept taxonomy lean: (1) <strong>Healthcare spend</strong> folded into HR > Occupational Health Services — this client is not a healthcare company; all spend is employee/workforce-related. (2) <strong>Construction & Renovation</strong> kept inside FACILITIES rather than elevated to its own top-level category. ~20–25 vendors, mostly project-based capex. Facilities managers own these relationships. Filterable via subcategory without taxonomy bloat. Revisit if annual spend exceeds ~$5M.
+      </div>
+      <div class="v3-tags">
+        <span class="v3-tag">HR > Occupational Health Services</span>
+        <span class="v3-tag">FACILITIES > Construction & Renovation</span>
+        <span class="v3-tag">MEAT/SEAFOOD > Lamb/Exotic Meats</span>
+        <span class="v3-tag">PACKAGING > Insulated Shippers</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MISSING NODES + OVERLAPS -->
+  <div class="section-label">Audit Findings</div>
+  <div class="two-col">
+
+    <!-- MISSING NODES -->
+    <div class="audit-card">
+      <div class="audit-card-header">
+        <div class="audit-card-title">Missing Nodes</div>
+        <span class="pill pill-red">7 gaps found</span>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">Plant-Based & Alternative Proteins</div>
+          <div class="priority-dot dot-red"></div>
+        </div>
+        <div class="finding-desc">No node for Beyond Meat, Impossible, cultured meat. Confirmed by a confirmed plant-based vendor in vendor data. Created as standalone Subcategory1 — keeps it separate from animal protein to avoid AI confusion.</div>
+        <div class="path-chain">
+          <span class="path-node">FOOD/INGREDIENTS</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node new">PLANT-BASED & ALT. PROTEINS</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node new">PLANT-BASED MEAT SUBSTITUTES</span>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">Construction & Renovation</div>
+          <div class="priority-dot dot-red"></div>
+        </div>
+        <div class="finding-desc">~20–25 vendors confirmed: regional construction vendors confirmed in vendor data Folded into FACILITIES rather than elevated — project-based spend, facilities managers own these relationships.</div>
+        <div class="path-chain">
+          <span class="path-node">FACILITIES</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node new">CONSTRUCTION & RENOVATION</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node new">GENERAL CONTRACTING / ROOFING / HVAC…</span>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">Occupational Health Services</div>
+          <div class="priority-dot dot-red"></div>
+        </div>
+        <div class="finding-desc">confirmed occupational health vendors — all employee health, not clinical ops. Consolidated under HR rather than a new top-level HEALTHCARE category.</div>
+        <div class="path-chain">
+          <span class="path-node">HR</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node new">OCCUPATIONAL HEALTH SERVICES</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node new">INJURY MANAGEMENT</span>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">Lamb / Exotic Meats</div>
+          <div class="priority-dot dot-yellow"></div>
+        </div>
+        <div class="finding-desc">confirmed exotic protein vendors were being misclassified as BEEF. Lamb and bison are distinct protein categories. Added LAMB/EXOTIC MEATS as a child of MEAT/SEAFOOD.</div>
+        <div class="path-chain">
+          <span class="path-node">FOOD/INGREDIENTS</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node">MEAT/SEAFOOD</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node new">LAMB/EXOTIC MEATS</span>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">Insulated Shippers / Cold-Chain Packaging</div>
+          <div class="priority-dot dot-red"></div>
+        </div>
+        <div class="finding-desc">confirmed cold-chain packaging vendors all appeared in vendor data with this subcategory — but it didn't exist in the taxonomy. Critical for the client's DTC model.</div>
+        <div class="path-chain">
+          <span class="path-node">PACKAGING</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node">SHIPPING SUPPLIES</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node new">INSULATED SHIPPERS/COLD-CHAIN PKG</span>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">Marinades & Rubs</div>
+          <div class="priority-dot dot-yellow"></div>
+        </div>
+        <div class="finding-desc">Direct input for marinated products. No existing CONDIMENTS node covered this. confirmed seasoning vendors are partially covered under SPICES & SEASONINGS but marinades are distinct.</div>
+        <div class="path-chain">
+          <span class="path-node">FOOD/INGREDIENTS</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node">CONDIMENTS</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node new">MARINADES & RUBS</span>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">Gift Boxes / Premium Packaging + E-Commerce Platform</div>
+          <div class="priority-dot dot-yellow"></div>
+        </div>
+        <div class="finding-desc">Two DTC-specific gaps: branded gift box packaging (core to the client's gifting business) and an e-commerce platform node distinct from the catch-all IT SOFTWARE.</div>
+        <div class="path-chain">
+          <span class="path-node">PACKAGING</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node new">GIFT BOXES/PREMIUM PACKAGING</span>
+        </div>
+        <div class="path-chain" style="margin-top:6px">
+          <span class="path-node">IT/TELECOM</span>
+          <span class="path-arrow">›</span>
+          <span class="path-node new">E-COMMERCE PLATFORM</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- OVERLAPS -->
+    <div class="audit-card">
+      <div class="audit-card-header">
+        <div class="audit-card-title">Overlap Issues Resolved</div>
+        <span class="pill pill-green">8 conflicts fixed</span>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">DAIRY & EGG PRODUCTS ↔ specific dairy nodes</div>
+          <div class="priority-dot dot-red"></div>
+        </div>
+        <div class="finding-desc">Catch-all sat alongside BUTTER/CREAMERY, MILK, CHEESE — any dairy invoice could land in 2+ places. AI would split inconsistently.</div>
+        <div class="resolution">Renamed to EGGS & EGG PRODUCTS only</div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">IT/TELECOM STAFFING ↔ HR IT STAFFING</div>
+          <div class="priority-dot dot-red"></div>
+        </div>
+        <div class="finding-desc">Exact duplicate in two categories. Same vendor, same invoice — completely random classification outcome.</div>
+        <div class="resolution">IT/TELECOM › STAFFING node removed; route to HR</div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">SOY & SOY PRODUCTS ↔ DAIRY ALTERNATIVES</div>
+          <div class="priority-dot dot-red"></div>
+        </div>
+        <div class="finding-desc">Soy milk, tofu, soy-based drinks fit both. No context available to AI at invoice level.</div>
+        <div class="resolution">SOY node scoped to "RAW/INDUSTRIAL INPUTS ONLY"</div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">JAN-SAN/CLEANING ↔ JANITORIAL SERVICES</div>
+          <div class="priority-dot dot-yellow"></div>
+        </div>
+        <div class="finding-desc">Products vs. services — a logical distinction AI can't reliably make without explicit labeling. Confirmed by vendors: confirmed product vendors vs. confirmed service vendors.</div>
+        <div class="resolution">Added "(PRODUCTS ONLY)" and "(SERVICES ONLY)" tags</div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">REFRIGERATED WAREHOUSING ↔ FOOD WAREHOUSING</div>
+          <div class="priority-dot dot-yellow"></div>
+        </div>
+        <div class="finding-desc">Cold food storage belongs to both. confirmed cold storage vendors — all correctly merge to single node.</div>
+        <div class="resolution">Merged → REFRIGERATED/FOOD WAREHOUSING</div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">DIGITAL MARKETING ↔ SEO ↔ SOCIAL MEDIA</div>
+          <div class="priority-dot dot-yellow"></div>
+        </div>
+        <div class="finding-desc">SEO and Social/Influencer are sub-disciplines of Digital Marketing, not peers. Same vendor (confirmed digital advertising platforms) could land in 3 different nodes.</div>
+        <div class="resolution">SEO and SOCIAL MEDIA nested under DIGITAL MARKETING</div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">OFFICE FURNITURE (Purchase) ↔ FURNITURE (Repair)</div>
+          <div class="priority-dot dot-yellow"></div>
+        </div>
+        <div class="finding-desc">Buying furniture vs. repairing it — an AI can't distinguish without explicit label context. Two separate nodes, same name.</div>
+        <div class="resolution">Labels clarified with (PURCHASE) and (REPAIR ONLY)</div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-top">
+          <div class="finding-name">confirmed exotic protein vendors miscategorized as BEEF</div>
+          <div class="priority-dot dot-yellow"></div>
+        </div>
+        <div class="finding-desc">Data quality issue in vendor file — bison and lamb mapped to BEEF, and one vendor had a row mapped to MEAT/SEAFOOD at subcategory1 level (schema error).</div>
+        <div class="resolution">LAMB/EXOTIC MEATS node added; vendor data to be corrected</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CHANGE LOG -->
+  <div class="changelog-section">
+    <div class="section-label">Full Change Log — All Versions</div>
+    <div class="changelog-grid">
+
+      <div class="change-tile tile-add">
+        <div class="change-type-label type-add">+ Added · V2</div>
+        <div class="change-desc">PLANT-BASED & ALT. PROTEINS (+ 3 children)</div>
+        <div class="change-path">FOOD/INGREDIENTS › new Subcategory1</div>
+      </div>
+
+      <div class="change-tile tile-add">
+        <div class="change-type-label type-add">+ Added · V2</div>
+        <div class="change-desc">MARINADES & RUBS</div>
+        <div class="change-path">FOOD/INGREDIENTS › CONDIMENTS</div>
+      </div>
+
+      <div class="change-tile tile-add">
+        <div class="change-type-label type-add">+ Added · V2</div>
+        <div class="change-desc">COLD CHAIN SUPPLIES</div>
+        <div class="change-path">LOGISTICS › new Subcategory1</div>
+      </div>
+
+      <div class="change-tile tile-add">
+        <div class="change-type-label type-add">+ Added · V2</div>
+        <div class="change-desc">GIFT BOXES/PREMIUM PACKAGING</div>
+        <div class="change-path">PACKAGING › FIBER/WOOD PACKAGING</div>
+      </div>
+
+      <div class="change-tile tile-add">
+        <div class="change-type-label type-add">+ Added · V2</div>
+        <div class="change-desc">E-COMMERCE PLATFORM</div>
+        <div class="change-path">IT/TELECOM › new Subcategory1</div>
+      </div>
+
+      <div class="change-tile tile-rename">
+        <div class="change-type-label type-rename">~ Renamed · V2</div>
+        <div class="change-desc">DAIRY & EGG PRODUCTS → EGGS & EGG PRODUCTS</div>
+        <div class="change-path">FOOD/INGREDIENTS › DAIRY</div>
+      </div>
+
+      <div class="change-tile tile-remove">
+        <div class="change-type-label type-remove">− Removed · V2</div>
+        <div class="change-desc">IT/TELECOM › STAFFING (duplicate)</div>
+        <div class="change-path">Route to: HR › CONTRACT LABOR/STAFFING › IT STAFFING</div>
+      </div>
+
+      <div class="change-tile tile-clarify">
+        <div class="change-type-label type-clarify">✎ Clarified · V2</div>
+        <div class="change-desc">SOY & SOY PRODUCTS → "(RAW/INDUSTRIAL INPUTS ONLY)"</div>
+        <div class="change-path">FOOD/INGREDIENTS › OILSEED & FATS/OILS</div>
+      </div>
+
+      <div class="change-tile tile-merge">
+        <div class="change-type-label type-merge">⊕ Merged · V2</div>
+        <div class="change-desc">FOOD WAREHOUSING + REFRIGERATED → REFRIGERATED/FOOD WAREHOUSING</div>
+        <div class="change-path">LOGISTICS › WAREHOUSING</div>
+      </div>
+
+      <div class="change-tile tile-nest">
+        <div class="change-type-label type-nest">⊂ Nested · V2</div>
+        <div class="change-desc">SEO + SOCIAL MEDIA moved under DIGITAL MARKETING</div>
+        <div class="change-path">MARKETING › DIGITAL MARKETING</div>
+      </div>
+
+      <div class="change-tile tile-clarify">
+        <div class="change-type-label type-clarify">✎ Clarified · V2</div>
+        <div class="change-desc">JAN-SAN "(PRODUCTS ONLY)" / JANITORIAL "(SERVICES ONLY)"</div>
+        <div class="change-path">MRO/OEM + FACILITIES</div>
+      </div>
+
+      <div class="change-tile tile-clarify">
+        <div class="change-type-label type-clarify">✎ Clarified · V2</div>
+        <div class="change-desc">OFFICE FURNITURE (PURCHASE) / FURNITURE (REPAIR ONLY)</div>
+        <div class="change-path">GENERAL/ADMIN + MRO/OEM</div>
+      </div>
+
+      <div class="change-tile tile-add">
+        <div class="change-type-label type-add">+ Added · V3</div>
+        <div class="change-desc">CONSTRUCTION & RENOVATION (8 children)</div>
+        <div class="change-path">FACILITIES › new Subcategory1</div>
+      </div>
+
+      <div class="change-tile tile-add">
+        <div class="change-type-label type-add">+ Added · V3</div>
+        <div class="change-desc">OCCUPATIONAL HEALTH SERVICES (2 children)</div>
+        <div class="change-path">HR › new Subcategory1</div>
+      </div>
+
+      <div class="change-tile tile-add">
+        <div class="change-type-label type-add">+ Added · V3</div>
+        <div class="change-desc">LAMB/EXOTIC MEATS</div>
+        <div class="change-path">FOOD/INGREDIENTS › MEAT/SEAFOOD</div>
+      </div>
+
+      <div class="change-tile tile-add">
+        <div class="change-type-label type-add">+ Added · V3</div>
+        <div class="change-desc">INSULATED SHIPPERS/COLD-CHAIN PACKAGING</div>
+        <div class="change-path">PACKAGING › SHIPPING SUPPLIES</div>
+      </div>
+
+      <div class="change-tile tile-clarify">
+        <div class="change-type-label type-clarify">✎ Data Flag · V3</div>
+        <div class="change-desc">confirmed exotic protein vendors — reclassify from BEEF to LAMB/EXOTIC MEATS</div>
+        <div class="change-path">Vendor data correction required</div>
+      </div>
+
+      <div class="change-tile tile-clarify">
+        <div class="change-type-label type-clarify">✎ Data Flag · V3</div>
+        <div class="change-desc">vendor name standardization — correct to proper legal entity name (conventional protein, not plant-based)</div>
+        <div class="change-path">Vendor name standardization required</div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>High Priority</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>Medium Priority</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Resolved</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Data Flag</div>
+  </div>
+  <p>Non-Farm Food Production · Food &amp; Beverage Client · v3</p>
+</footer>
+
+</body>
+</html>
