@@ -408,24 +408,35 @@
 
         th {
             padding: 1rem;
+            text-align: left;
             font-weight: 600;
             font-size: 0.875rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
         
+        th:nth-child(2),
+        th:nth-child(3) {
+            text-align: center;
+        }
+        
+        th:nth-child(4),
+        th:nth-child(5) {
+            text-align: center;
+        }
+
         td {
             padding: 1rem;
             border-bottom: 1px solid var(--border);
         }
         
-        th:nth-child(1),
-        td:nth-child(1) {
-            text-align: left;
+        td:nth-child(2),
+        td:nth-child(3) {
+            text-align: center;
         }
         
-        th:nth-child(n+2),
-        td:nth-child(n+2) {
+        td:nth-child(4),
+        td:nth-child(5) {
             text-align: center;
         }
 
@@ -539,6 +550,7 @@
             <button class="tab active" onclick="showTab('cover')">📊 Executive Summary</button>
             <button class="tab" onclick="showTab('pcm')">📋 PCM Taxonomy</button>
             <button class="tab" onclick="showTab('spendai')">🚀 SpendAI-PCM Taxonomy</button>
+            <button class="tab" onclick="showTab('mtm')">🔍 MTM Merged Review</button>
         </div>
 
         <!-- EXECUTIVE SUMMARY TAB -->
@@ -1241,6 +1253,335 @@
                 </div>
 
                 <button class="download-btn" onclick="downloadSpendAIImproved()">Download Improved SpendAI-PCM Taxonomy CSV (681 categories)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MTM MERGED REVIEW TAB -->
+    <div id="mtm" class="tab-content">
+        <div class="card">
+            <h2>MTM SpendAI Merged Taxonomy Review</h2>
+            
+            <div class="comparison-grid">
+                <div class="metric">
+                    <div class="metric-label">Total Categories</div>
+                    <div class="metric-value">698</div>
+                    <p style="margin-top: 0.5rem; color: var(--text-light);">Comprehensive merged taxonomy</p>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Issues Found</div>
+                    <div class="metric-value">10</div>
+                    <p style="margin-top: 0.5rem; color: var(--text-light);">Refinements needed</p>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Top Priority Fixes</div>
+                    <div class="metric-value">19</div>
+                    <p style="margin-top: 0.5rem; color: var(--text-light);">10 removals + 2 naming + 7 additions</p>
+                </div>
+            </div>
+
+            <div class="verdict" style="margin-top: 2rem;">
+                <h3>✅ Overall Assessment: STRONG Base</h3>
+                <p><strong>Verdict:</strong> The taxonomy successfully includes all critical manufacturing categories identified in the gap analysis. Main issues are irrelevant categories from other industries and minor naming inconsistencies.</p>
+                
+                <p><strong>Estimated cleanup effort:</strong> <span style="background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 4px;">2-3 hours</span> to implement high-priority fixes.</p>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <h2>✅ Strengths - What's Working Well</h2>
+            
+            <div class="success-box">
+                <h3 style="color: #065f46; margin-top: 0;">Critical Manufacturing Categories Present</h3>
+                <ul>
+                    <li><strong>MRO > SPECIALTY MRO OEM > COLLETS AND WORK HOLDING:</strong> All 8 types (5C, 16C, 22J, B42, TF20, TD20, 12D Bar Loader, Emergency)</li>
+                    <li><strong>MRO > SPECIALTY MRO OEM > GUIDE BUSHINGS:</strong> 5 varieties (Round Smooth, Extended Nose, Meehanite, TD20R, TD32)</li>
+                    <li><strong>MRO > MEASUREMENT AND CONTROLS > GAUGES AND STANDARDS:</strong> Thread Ring/Plug, Plain Plug, Pin Gauges, Gage Blocks</li>
+                    <li><strong>MRO > MEASUREMENT AND CONTROLS > PRECISION MEASURING TOOLS:</strong> Micrometers, Calipers, Height Gauges, Bore Gauges, Indicators</li>
+                    <li><strong>MRO > SPECIALTY MRO OEM > BORING TOOLS:</strong> Boring Bars, Boring Heads, Micro-Boring Tools</li>
+                    <li><strong>MRO > SPECIALTY MRO OEM > THREAD INSERTS:</strong> Helicoils, Keenserts, Wire Thread Inserts, Self-Clinching Fasteners</li>
+                    <li><strong>MRO > SPECIALTY MRO OEM > TOOLHOLDERS AND RETENTION:</strong> CAT Toolholders, HSK Toolholders, ER Collet Nuts, Retention Knobs, Drawbars</li>
+                    <li><strong>OUTSOURCE > SURFACE FINISHING > ANODIZING:</strong> Type II, Type III Hard Anodize, Chromic Acid, Color, Oxalic Acid</li>
+                    <li><strong>OUTSOURCE > SURFACE FINISHING > PLATING:</strong> Electroless Nickel, Hard Chrome, Zinc, Gold, Silver, Chrome</li>
+                    <li><strong>OUTSOURCE > SURFACE FINISHING > COATING:</strong> Powder Coating, Teflon, Ceramic, E-Coating, Nippon Fusso</li>
+                    <li><strong>OUTSOURCE > SURFACE FINISHING > SURFACE PREPARATION:</strong> Bead Blasting, Grit Blasting, Passivation, Tumbling, Masking</li>
+                    <li><strong>RAW MATERIALS > METALS:</strong> Detailed bar stock, sheet/plate, specialty alloys (Titanium, Inconel, Hastelloy), tube</li>
+                </ul>
+            </div>
+
+            <div class="success-box" style="margin-top: 1.5rem;">
+                <h3 style="color: #065f46; margin-top: 0;">Good Structural Decisions</h3>
+                <ul>
+                    <li><strong>No Fastener Overlap:</strong> Only in MRO > SPECIALTY MRO OEM > FASTENERS (no duplicate in COMPONENTS category)</li>
+                    <li><strong>Consistent 4-Level Hierarchy:</strong> Throughout entire taxonomy</li>
+                    <li><strong>3D Printing Included:</strong> MRO > GENERAL MRO > 3D PRINTING SUPPLIES with 8 detailed types (PLA, ABS, CPE, PETG, Nylon, TPU filaments, Print Cores, Build Plates)</li>
+                    <li><strong>Outside Processes Well-Structured:</strong> OUTSOURCE > OUTSIDE PROCESSES includes Machining, Welding, Grinding, Laser Cutting, EDM, Waterjet, etc.</li>
+                </ul>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <h2>🔴 Critical Issues - Must Fix</h2>
+
+            <div class="danger-box">
+                <h3 style="color: #991b1b; margin-top: 0;">1. Remove Irrelevant Categories (10 items)</h3>
+                <p style="margin-bottom: 1rem;">These categories are not applicable to precision CNC/Swiss machining operations:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Reason for Removal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CAPEX > ELECTRONICS PRODUCTION EQUIPMENT > WAFER PROCESSING EQUIPMENT > ETCHING SYSTEMS</td>
+                            <td>Semiconductor fabrication equipment (Intel, TSMC operations)</td>
+                        </tr>
+                        <tr>
+                            <td>CAPEX > FARM CONSTRUCTION MINING EQUIPMENT > FARM EQUIPMENT</td>
+                            <td>Agricultural machinery</td>
+                        </tr>
+                        <tr>
+                            <td>CAPEX > FARM CONSTRUCTION MINING EQUIPMENT > LAWN AND GARDEN EQUIPMENT</td>
+                            <td>Consumer/landscaping equipment</td>
+                        </tr>
+                        <tr>
+                            <td>CAPEX > INDUSTRIAL MACHINERY > FOOD MACHINERY</td>
+                            <td>Food processing equipment</td>
+                        </tr>
+                        <tr>
+                            <td>OUTSOURCE > CONTRACT FILLING COFILL > FOOD BEVERAGE (Beer, Spirits, Wine, Food)</td>
+                            <td>Bottling/filling services for consumer products</td>
+                        </tr>
+                        <tr>
+                            <td>OUTSOURCE > CONTRACT FILLING COFILL > HOUSEHOLD</td>
+                            <td>Consumer product filling</td>
+                        </tr>
+                        <tr>
+                            <td>OUTSOURCE > CONTRACT FILLING COFILL > PERSONAL CARE</td>
+                            <td>Cosmetics/toiletries filling</td>
+                        </tr>
+                        <tr>
+                            <td>MANUFACTURED ITEMS > SURGICAL EQUIPMENT > FORCEPS > FORCEP SUPPLIERS</td>
+                            <td>Medical device manufacturing</td>
+                        </tr>
+                        <tr>
+                            <td>HR > CONTRACT LABOR STAFFING > SPECIALTY STAFFING > AGRICULTURE STAFFING</td>
+                            <td>Farm labor staffing</td>
+                        </tr>
+                        <tr>
+                            <td>LOGISTICS AND SUPPLY CHAIN > WAREHOUSING > FOOD WAREHOUSING</td>
+                            <td>Temperature-controlled food storage</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="danger-box" style="margin-top: 1.5rem;">
+                <h3 style="color: #991b1b; margin-top: 0;">2. Add Missing Cutting Tool Subcategories (Critical Gap)</h3>
+                <p><strong>Current State:</strong> MRO > SPECIALTY MRO OEM > CUTTING TOOLS exists but has <strong>NO subcategories</strong></p>
+                <p><strong>Issue:</strong> Inventory contains <strong class="data-point">2,962 cutting tool parts</strong> (6.4% of inventory) including end mills, drills, taps, reamers, and carbide inserts</p>
+                <p style="margin-top: 1rem;"><strong>Required Additions (7 subcategories):</strong></p>
+                <ul style="margin-left: 1.5rem;">
+                    <li>END MILLS</li>
+                    <li>DRILLS</li>
+                    <li>TAPS</li>
+                    <li>REAMERS</li>
+                    <li>CARBIDE INSERTS</li>
+                    <li>COUNTERSINKS</li>
+                    <li>SPOT DRILLS</li>
+                </ul>
+            </div>
+
+            <div class="danger-box" style="margin-top: 1.5rem;">
+                <h3 style="color: #991b1b; margin-top: 0;">3. Fix Naming Inconsistencies (2 issues)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Current Name</th>
+                            <th>Should Be</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SPECIALTY MRO OEM</td>
+                            <td><strong>SPECIALTY MRO</strong></td>
+                            <td>Consistency with ELECTRICAL MRO, GENERAL MRO, MECHANICAL MRO</td>
+                        </tr>
+                        <tr>
+                            <td>UNIFORMS MATS FIRE FA AND S</td>
+                            <td><strong>UNIFORMS MATS FIRE EXTINGUISHERS FIRST AID</strong></td>
+                            <td>Expand abbreviation for clarity</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 1rem; font-style: italic; color: var(--text-light);"><strong>Note:</strong> "IT AND TELECOM" and "LOGISTICS AND SUPPLY CHAIN" use "AND" correctly to join distinct functional areas - this is consistent with the taxonomy's pattern (e.g., "MOTORS AND GENERATORS", "POWER DISTRIBUTION AND TRANSFORMERS").</p>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <h2>🟡 Medium Priority - Should Address</h2>
+
+            <div class="highlight-box">
+                <h3 style="margin-top: 0;">4. Trim Consumer Packaging Categories (~15 categories)</h3>
+                <p><strong>Issue:</strong> Taxonomy includes consumer product packaging that may not be relevant to precision machining operations.</p>
+                
+                <div class="comparison-grid" style="margin-top: 1rem;">
+                    <div class="card" style="background: #fef3c7;">
+                        <h4>Consider Removing (Unless Precinmac Packages Consumer Products)</h4>
+                        <ul style="font-size: 0.9rem;">
+                            <li>PACKAGING > RIGID PACKAGING > BOTTLES AND JARS (Aluminum/Glass/Plastic)</li>
+                            <li>PACKAGING > RIGID PACKAGING > CANS (Aerosols, Tinplate, Steel)</li>
+                            <li>PACKAGING > RIGID PACKAGING > CAPS PUMPS AND SPRAYERS</li>
+                            <li>PACKAGING > RIGID PACKAGING > PAILS TUBS</li>
+                            <li>PACKAGING > FLEXIBLE PACKAGING > POUCHES POLY BAGS SACHETS</li>
+                            <li>PACKAGING > FLEXIBLE PACKAGING > SQUEEZE TUBES</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="background: #d1fae5;">
+                        <h4>Keep These (Industrial Shipping)</h4>
+                        <ul style="font-size: 0.9rem;">
+                            <li>PACKAGING > FIBER WOOD PACKAGING > PALLETS CRATING ✓</li>
+                            <li>PACKAGING > FIBER WOOD PACKAGING > CORRUGATED CARTONS ✓</li>
+                            <li>PACKAGING > SHIPPING SUPPLIES (all subcategories) ✓</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1.5rem;">
+                <h3 style="margin-top: 0;">5. Consolidate Ferrous Metal Naming</h3>
+                <p><strong>Issue:</strong> Inconsistent singular/plural naming in RAW MATERIALS > METALS</p>
+                
+                <p style="margin-top: 1rem;"><strong>Current Structure:</strong></p>
+                <ul style="margin-left: 1.5rem;">
+                    <li>FERROUS METAL (singular) - Cast Iron, Other Ferrous, Pig Iron, Wrought Iron</li>
+                    <li>FERROUS METALS (plural) - Rolled Steel, Stainless Steel, Steel, Steel Tube, Steel Wire</li>
+                    <li>FERROUS BAR STOCK - Carbon Steel Bar, Stainless Steel Bar, Alloy Steel Bar</li>
+                </ul>
+                
+                <p style="margin-top: 1rem;"><strong>Recommendation:</strong> Consolidate into single "FERROUS METALS" (plural) parent category with all steel types as subcategories. Remove "FERROUS METAL" (singular).</p>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <h2>⚪ Verify With Precinmac Team</h2>
+
+            <div class="card" style="background: #f0f9ff; border-left: 4px solid #3b82f6;">
+                <h3 style="margin-top: 0;">Questions Requiring Team Input</h3>
+                
+                <div style="margin-top: 1.5rem; padding: 1rem; background: white; border-radius: 8px;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #1e40af;">1. Detailed Chemicals Taxonomy</h4>
+                    <p><strong>Current State:</strong> RAW MATERIALS > CHEMICALS contains 100+ extremely detailed subcategories including:</p>
+                    <ul style="margin: 0.5rem 0 0 1.5rem;">
+                        <li>Citric Acids (Food Grade vs Technical Grade)</li>
+                        <li>Chelating Agents (Green, Iron, Metal, Core Liquid)</li>
+                        <li>12+ Silicone subcategories</li>
+                        <li>10+ Propellant types (HFO, Dimethyl Ether, Isohexane, etc.)</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem;"><strong>Question:</strong> Does Precinmac need this level of chemical detail, or would simplified categories work better (Solvents, Coolants, Cleaning Chemicals, Lubricants)?</p>
+                </div>
+
+                <div style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 8px;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #1e40af;">2. Finished Plastic Parts</h4>
+                    <p><strong>Current State:</strong> MANUFACTURED ITEMS > PLASTICS PARTS includes 7 subcategories:</p>
+                    <ul style="margin: 0.5rem 0 0 1.5rem;">
+                        <li>3D Printed Parts (potentially relevant)</li>
+                        <li>Blow Molded Parts</li>
+                        <li>Extruded Plastic Parts</li>
+                        <li>Injection Molded Parts</li>
+                        <li>Rotomolded Parts</li>
+                        <li>Thermoformed Parts</li>
+                        <li>Vacuum Formed Parts</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem;"><strong>Question:</strong> Does Precinmac procure finished plastic components, or do you only machine metal? If metal only, consider removing 6 plastic part categories (keep 3D printed if used for fixtures/prototypes).</p>
+                </div>
+
+                <div style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 8px;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #1e40af;">3. Logistics Management Scope</h4>
+                    <p><strong>Current State:</strong> LOGISTICS AND SUPPLY CHAIN categories include:</p>
+                    <ul style="margin: 0.5rem 0 0 1.5rem;">
+                        <li>Warehousing (Food, General)</li>
+                        <li>Freight Forwarding (Air, Ocean, Ground, Customs Brokerage)</li>
+                        <li>Last Mile Delivery</li>
+                        <li>3PL Services</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem;"><strong>Question:</strong> Does plant procurement manage freight and warehousing contracts, or does the parent company handle logistics? If parent company manages, consider removing logistics categories.</p>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <h2>📊 Summary of Recommended Changes</h2>
+
+            <table style="margin-top: 1.5rem;">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Count</th>
+                        <th>Impact</th>
+                        <th>Priority</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Remove Irrelevant Categories</strong></td>
+                        <td class="data-point">10</td>
+                        <td>Agriculture, food, semiconductor, medical categories</td>
+                        <td><span class="badge weakness">HIGH</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fix Naming Inconsistencies</strong></td>
+                        <td class="data-point">2</td>
+                        <td>Standardize MRO naming, expand abbreviations</td>
+                        <td><span class="badge weakness">HIGH</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Add Cutting Tool Subcategories</strong></td>
+                        <td class="data-point">+7</td>
+                        <td>End Mills, Drills, Taps, Reamers, Inserts, Countersinks, Spot Drills</td>
+                        <td><span class="badge weakness">HIGH</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Trim Consumer Packaging</strong></td>
+                        <td class="data-point">~15</td>
+                        <td>Remove bottles, aerosols, caps, pumps, squeeze tubes</td>
+                        <td><span class="badge overlap">MEDIUM</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Consolidate Ferrous Metals</strong></td>
+                        <td class="data-point">-1</td>
+                        <td>Merge singular/plural naming</td>
+                        <td><span class="badge overlap">MEDIUM</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Simplify Chemicals (Optional)</strong></td>
+                        <td class="data-point">-50+</td>
+                        <td>Reduce if detailed chemistry not needed</td>
+                        <td><span class="badge strength">VERIFY</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Remove Plastic Parts (Optional)</strong></td>
+                        <td class="data-point">-6</td>
+                        <td>If Precinmac doesn't buy plastic components</td>
+                        <td><span class="badge strength">VERIFY</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Verify Logistics Scope</strong></td>
+                        <td class="data-point">TBD</td>
+                        <td>Keep or remove based on procurement scope</td>
+                        <td><span class="badge strength">VERIFY</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="card" style="margin-top: 2rem; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-left: 4px solid #10b981;">
+                <h3 style="margin-top: 0; color: #065f46;">Net Result</h3>
+                <p style="font-size: 1.1rem;">If all recommendations applied: <strong class="data-point">698 categories → ~615 categories</strong></p>
+                <p style="margin-top: 1rem;">High-priority fixes only (10 removals + 2 naming + 7 additions): <strong class="data-point">19 changes</strong></p>
+                <p style="margin-top: 1rem; font-weight: 600;">Estimated implementation time: 2-3 hours</p>
             </div>
         </div>
     </div>
@@ -2253,8 +2594,8 @@ OUTSOURCE,SURFACE FINISHING,SURFACE PREPARATION,MASKING
         <div style="margin-bottom: 0.5rem; font-weight: 700; letter-spacing: 0.1em; color: #fca5a5;">
             ⚠️ CONFIDENTIAL ⚠️
         </div>
-        <div style="font-size: 0.75rem; opacity: 0.8; line-height: 1.6;">
-            This document contains proprietary and confidential information belonging to SpendAI and it's clients.<br>
+        <div style="font-size: 0.875rem; opacity: 0.8; line-height: 1.6;">
+            This document contains proprietary and confidential information belonging to SpendAI.<br>
             Distribution, reproduction, or disclosure without express written authorization is strictly prohibited.<br>
             For authorized personnel only.
         </div>
